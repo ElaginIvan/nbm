@@ -1262,24 +1262,35 @@ function initializeCuttingCalculator() {
                 }
             }
             if (partsToCut.length === 0) continue;
-
+            
             // Алгоритм FFD для текущего материала
-            partsToCut.sort((a, b) => b.length - a.length);
-            const cuttingPlan = [];
-            for (const part of partsToCut) {
-                let placed = false;
-                for (const stock of cuttingPlan) {
-                    const usedLength = stock.reduce((sum, p) => sum + p.length, 0) + (stock.length > 0 ? (stock.length - 1) * kerf : 0);
-                    if (stockLength - usedLength >= part.length) {
-                        stock.push(part);
-                        placed = true;
-                        break;
-                    }
-                }
-                if (!placed) {
-                    cuttingPlan.push([part]);
-                }
-            }
+partsToCut.sort((a, b) => b.length - a.length);
+const cuttingPlan = [];
+for (const part of partsToCut) {
+    let placed = false;
+    for (const stock of cuttingPlan) {
+        // Правильный расчет использованной длины с резами для этой заготовки
+        let usedLength = 0;
+        if (stock.length > 0) {
+            // Сумма длин всех деталей
+            usedLength = stock.reduce((sum, p) => sum + p.length, 0);
+            // Добавляем резы между деталями и после последней (n резов для n деталей)
+            usedLength += stock.length * kerf; // Изменено с (stock.length - 1) на stock.length
+        }
+        
+        // Проверяем, поместится ли деталь с учетом реза
+        // Для новой детали нужно добавить рез после нее
+        const requiredLength = part.length + kerf; // Добавляем рез после детали
+        if (stockLength - usedLength >= requiredLength) {
+            stock.push(part);
+            placed = true;
+            break;
+        }
+    }
+    if (!placed) {
+        cuttingPlan.push([part]);
+    }
+}
 
             // Группировка одинаковых раскроев
             const groupedPlan = new Map();
@@ -1431,6 +1442,7 @@ initializeCuttingCalculator();
 
 
 </html>
+
 
 
 
