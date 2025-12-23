@@ -181,63 +181,6 @@
             background-color: #3d8b40;
         }
 
-        /* Стили для модального окна */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 2% auto;
-            padding: 20px;
-            width: 90%;
-            height: 90%;
-            border-radius: 8px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .close {
-            position: absolute;
-            right: 20px;
-            top: 10px;
-            font-size: 28px;
-            cursor: pointer;
-            color: #333;
-            z-index: 1001;
-        }
-
-        .close:hover {
-            color: #ff0000;
-        }
-
-        .modal-header {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 15px;
-        }
-
-        .modal-body {
-            flex: 1;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        #pdfViewer {
-            border: none;
-            width: 100%;
-            height: 100%;
-        }
-
         /* Адаптивность */
         @media (max-width: 768px) {
             body {
@@ -654,398 +597,325 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                // Элементы для управления
-                const svgObject = document.getElementById('svgObject');
-                const drawingContainer = document.getElementById('drawingContainer');
-                const tabButtons = document.querySelectorAll('.tab-button');
-                const tabContents = document.querySelectorAll('.tab-content');
+    // Элементы для управления
+    const svgObject = document.getElementById('svgObject');
+    const drawingContainer = document.getElementById('drawingContainer');
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-                // Переменные состояния
-                let svgDoc = null;
-                let currentActiveTab = 'details';
-                let selectedDetailRow = null;
-                let selectedAssemblyRow = null;
-                let selectedHotspotIds = [];
+    // Переменные состояния
+    let svgDoc = null;
+    let currentActiveTab = 'details';
+    let selectedDetailRow = null;
+    let selectedAssemblyRow = null;
+    let selectedHotspotIds = [];
 
-                // Инициализация SVG
-                svgObject.addEventListener('load', function () {
-                    svgDoc = svgObject.contentDocument;
-                    initializeSVGInteractions();
-                });
+    // Инициализация SVG
+    svgObject.addEventListener('load', function () {
+        svgDoc = svgObject.contentDocument;
+        initializeSVGInteractions();
+    });
 
-                // Управление вкладками
-                tabButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        const tabId = button.getAttribute('data-tab');
-                        const wasCuttingTab = currentActiveTab === 'cutting';
-                        currentActiveTab = tabId;
+    // Управление вкладками
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const tabId = button.getAttribute('data-tab');
+            const wasCuttingTab = currentActiveTab === 'cutting';
+            currentActiveTab = tabId;
 
-                        // Убираем активный класс у всех кнопок и контента
-                        tabButtons.forEach(btn => btn.classList.remove('active'));
-                        tabContents.forEach(content => content.classList.remove('active'));
+            // Убираем активный класс у всех кнопок и контента
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
 
-                        // Добавляем активный класс текущей кнопке и соответствующему контенту
-                        button.classList.add('active');
-                        document.getElementById(tabId).classList.add('active');
+            // Добавляем активный класс текущей кнопке и соответствующему контенту
+            button.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
 
-                        // Управляем отображением чертежа
-                        if (tabId === 'cutting') {
-                            drawingContainer.classList.add('hidden');
-                            document.querySelector('.tabs-container').style.height = 'calc(100% - 10px)';
-                        } else {
-                            drawingContainer.classList.remove('hidden');
-                            document.querySelector('.tabs-container').style.height = 'calc(100% - 320px)';
-                            if (wasCuttingTab) {
-                                resetAllHighlights();
-                            }
-                        }
-
-                        // Сбрасываем выделение при переключении вкладок
-                        resetAllHighlights();
-                    });
-                });
-
-                // Инициализация взаимодействий с SVG
-                function initializeSVGInteractions() {
-                    if (!svgDoc) return;
-
-                    // Обработка кликов по hotspots в SVG
-                    for (let i = 0; i <= 28; i++) {
-                        const hotspot = svgDoc.getElementById(`hotspot.${i}`);
-                        if (hotspot) {
-                            // Удаляем старые обработчики если есть
-                            hotspot.removeEventListener('click', handleHotspotClick);
-                            hotspot.removeEventListener('mouseenter', handleHotspotMouseEnter);
-                            hotspot.removeEventListener('mouseleave', handleHotspotMouseLeave);
-
-                            // Добавляем новые обработчики
-                            hotspot.addEventListener('click', () => handleHotspotClick(i));
-                            hotspot.addEventListener('mouseenter', () => handleHotspotMouseEnter(i));
-                            hotspot.addEventListener('mouseleave', () => handleHotspotMouseLeave(i));
-
-                            // Устанавливаем начальную прозрачность
-                            hotspot.setAttribute('opacity', '0');
-                        }
-                    }
-                }
-
-                // Функции для управления подсветкой hotspots
-                function highlightHotspotSelected(hotspotId) {
-                    if (!svgDoc) return;
-                    const hotspot = svgDoc.getElementById(`hotspot.${hotspotId}`);
-                    if (hotspot) {
-                        // Яркая подсветка (синий, opacity 0.7) - для выбранных элементов
-                        hotspot.setAttribute('opacity', '0.7');
-                        hotspot.setAttribute('fill', '#007bff');
-                        // hotspot.setAttribute('stroke', '#0056b3');
-                        // hotspot.setAttribute('stroke-width', '2');
-                    }
-                }
-
-                function highlightHotspotHover(hotspotId) {
-                    if (!svgDoc) return;
-                    const hotspot = svgDoc.getElementById(`hotspot.${hotspotId}`);
-                    if (hotspot) {
-                        // Бледная подсветка (зеленый, opacity 0.3) - для наведения
-                        hotspot.setAttribute('opacity', '0.3');
-                        hotspot.setAttribute('fill', '#00ff00');
-                        // hotspot.setAttribute('stroke', '#00cc00');
-                        // hotspot.setAttribute('stroke-width', '2');
-                    }
-                }
-
-                function resetHotspot(hotspotId) {
-                    if (!svgDoc) return;
-                    const hotspot = svgDoc.getElementById(`hotspot.${hotspotId}`);
-                    if (hotspot) {
-                        // Сбрасываем к исходному состоянию
-                        hotspot.setAttribute('opacity', '0');
-                        hotspot.removeAttribute('fill');
-                        hotspot.removeAttribute('stroke');
-                        hotspot.removeAttribute('stroke-width');
-                    }
-                }
-
-                // Обработчики для hotspots
-                function handleHotspotClick(hotspotId) {
-                    if (currentActiveTab === 'cutting') return;
-
+            // Управляем отображением чертежа
+            if (tabId === 'cutting') {
+                drawingContainer.classList.add('hidden');
+                document.querySelector('.tabs-container').style.height = 'calc(100% - 10px)';
+            } else {
+                drawingContainer.classList.remove('hidden');
+                document.querySelector('.tabs-container').style.height = 'calc(100% - 320px)';
+                if (wasCuttingTab) {
                     resetAllHighlights();
-
-                    if (currentActiveTab === 'details') {
-                        // Для деталей выделяем одну строку и один hotspot
-                        const correspondingRow = document.querySelector(`tr[data-hotspot="${hotspotId}"]`);
-                        if (correspondingRow) {
-                            correspondingRow.classList.add('selected-row');
-                            selectedDetailRow = correspondingRow;
-                            correspondingRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
-
-                        // Выделяем hotspot ярко (синий, opacity 0.7)
-                        highlightHotspotSelected(hotspotId);
-                        selectedHotspotIds = [hotspotId.toString()];
-                    } else if (currentActiveTab === 'assemblies') {
-                        // Для сборок находим, к какой сборке относится hotspot
-                        const assemblyRow = findAssemblyByHotspot(hotspotId);
-                        if (assemblyRow) {
-                            selectAssembly(assemblyRow);
-                        }
-                    }
                 }
+            }
 
-                function handleHotspotMouseEnter(hotspotId) {
-                    if (currentActiveTab === 'cutting') return;
+            // Сбрасываем выделение при переключении вкладок
+            resetAllHighlights();
+        });
+    });
 
-                    // Если hotspot не выбран, подсвечиваем его бледно (зеленый, opacity 0.3)
-                    if (!selectedHotspotIds.includes(hotspotId.toString())) {
-                        highlightHotspotHover(hotspotId);
-                    }
+    // Инициализация взаимодействий с SVG
+    function initializeSVGInteractions() {
+        if (!svgDoc) return;
 
-                    // Подсвечиваем строку при наведении (только для деталей)
-                    if (currentActiveTab === 'details') {
-                        const correspondingRow = document.querySelector(`tr[data-hotspot="${hotspotId}"]`);
-                        if (correspondingRow && correspondingRow !== selectedDetailRow) {
-                            // Для строк таблицы используем стандартный hover стиль
-                        }
-                    }
-                }
+        // Обработка кликов по hotspots в SVG
+        for (let i = 0; i <= 28; i++) {
+            const hotspot = svgDoc.getElementById(`hotspot.${i}`);
+            if (hotspot) {
+                // Удаляем старые обработчики если есть
+                hotspot.removeEventListener('click', handleHotspotClick);
+                hotspot.removeEventListener('mouseenter', handleHotspotMouseEnter);
+                hotspot.removeEventListener('mouseleave', handleHotspotMouseLeave);
 
-                function handleHotspotMouseLeave(hotspotId) {
-                    if (currentActiveTab === 'cutting') return;
+                // Добавляем новые обработчики
+                hotspot.addEventListener('click', () => handleHotspotClick(i));
+                hotspot.addEventListener('mouseenter', () => handleHotspotMouseEnter(i));
+                hotspot.addEventListener('mouseleave', () => handleHotspotMouseLeave(i));
 
-                    // Если hotspot не выбран, сбрасываем его подсветку
-                    if (!selectedHotspotIds.includes(hotspotId.toString())) {
-                        resetHotspot(hotspotId);
-                    }
+                // Устанавливаем начальную прозрачность
+                hotspot.setAttribute('opacity', '0');
+            }
+        }
+    }
 
-                    // Убираем подсветку строки (стандартный hover уберется сам)
-                }
+    // Функции для управления подсветкой hotspots
+    function highlightHotspotSelected(hotspotId) {
+        if (!svgDoc) return;
+        const hotspot = svgDoc.getElementById(`hotspot.${hotspotId}`);
+        if (hotspot) {
+            // Яркая подсветка (синий, opacity 0.7) - для выбранных элементов
+            hotspot.setAttribute('opacity', '0.7');
+            hotspot.setAttribute('fill', '#007bff');
+        }
+    }
 
-                // Найти сборку по hotspot
-                function findAssemblyByHotspot(hotspotId) {
-                    const assemblyRows = document.querySelectorAll('#assembliesTable tbody tr');
-                    for (const row of assemblyRows) {
-                        const hotspotsStr = row.getAttribute('data-hotspots');
-                        const hotspots = hotspotsStr ? hotspotsStr.split(',').map(id => id.trim()) : [];
-                        if (hotspots.includes(hotspotId.toString())) {
-                            return row;
-                        }
-                    }
-                    return null;
-                }
+    function highlightHotspotHover(hotspotId) {
+        if (!svgDoc) return;
+        const hotspot = svgDoc.getElementById(`hotspot.${hotspotId}`);
+        if (hotspot) {
+            // Бледная подсветка (зеленый, opacity 0.3) - для наведения
+            hotspot.setAttribute('opacity', '0.3');
+            hotspot.setAttribute('fill', '#00ff00');
+        }
+    }
 
-                // Выделить сборку
-                function selectAssembly(assemblyRow) {
-                    resetAllHighlights();
+    function resetHotspot(hotspotId) {
+        if (!svgDoc) return;
+        const hotspot = svgDoc.getElementById(`hotspot.${hotspotId}`);
+        if (hotspot) {
+            // Сбрасываем к исходному состоянию
+            hotspot.setAttribute('opacity', '0');
+            hotspot.removeAttribute('fill');
+            hotspot.removeAttribute('stroke');
+            hotspot.removeAttribute('stroke-width');
+        }
+    }
 
-                    // Выделяем строку сборки ярко
-                    assemblyRow.classList.add('assembly-selected');
-                    selectedAssemblyRow = assemblyRow;
+    // Обработчики для hotspots
+    function handleHotspotClick(hotspotId) {
+        if (currentActiveTab === 'cutting') return;
 
-                    // Получаем hotspots сборки
-                    const hotspotsStr = assemblyRow.getAttribute('data-hotspots');
-                    const hotspots = hotspotsStr ? hotspotsStr.split(',').map(id => id.trim()) : [];
-                    selectedHotspotIds = hotspots;
+        resetAllHighlights();
 
-                    // Выделяем hotspots сборки ярко (синий, opacity 0.7)
-                    if (svgDoc) {
-                        hotspots.forEach(id => {
-                            highlightHotspotSelected(id);
-                        });
-                    }
+        if (currentActiveTab === 'details') {
+            // Для деталей выделяем одну строку и один hotspot
+            const correspondingRow = document.querySelector(`tr[data-hotspot="${hotspotId}"]`);
+            if (correspondingRow) {
+                correspondingRow.classList.add('selected-row');
+                selectedDetailRow = correspondingRow;
+                correspondingRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
 
-                    // Подсвечиваем строки деталей (бледно, через класс row-highlight)
-                    hotspots.forEach(id => {
-                        const detailRow = document.querySelector(`tr[data-hotspot="${id}"]`);
-                        if (detailRow) {
-                            // Для строк деталей используем стандартный hover стиль
-                        }
-                    });
-                }
+            // Выделяем hotspot ярко (синий, opacity 0.7)
+            highlightHotspotSelected(hotspotId);
+            selectedHotspotIds = [hotspotId.toString()];
+        } else if (currentActiveTab === 'assemblies') {
+            // Для сборок находим, к какой сборке относится hotspot
+            const assemblyRow = findAssemblyByHotspot(hotspotId);
+            if (assemblyRow) {
+                selectAssembly(assemblyRow);
+            }
+        }
+    }
 
-                // Обработка строк таблицы деталей
-                const detailRows = document.querySelectorAll('#specificationTable tbody tr');
-                detailRows.forEach(row => {
-                    const hotspotId = row.getAttribute('data-hotspot');
+    function handleHotspotMouseEnter(hotspotId) {
+        if (currentActiveTab === 'cutting') return;
 
-                    row.addEventListener('mouseenter', function () {
-                        if (currentActiveTab === 'details' && this !== selectedDetailRow) {
-                            // Для строк таблицы стандартный hover уже работает
-                            // Для hotspot - бледная подсветка (зеленый, opacity 0.3)
-                            if (svgDoc && !selectedHotspotIds.includes(hotspotId)) {
-                                highlightHotspotHover(hotspotId);
-                            }
-                        }
-                    });
+        // Если hotspot не выбран, подсвечиваем его бледно (зеленый, opacity 0.3)
+        if (!selectedHotspotIds.includes(hotspotId.toString())) {
+            highlightHotspotHover(hotspotId);
+        }
+    }
 
-                    row.addEventListener('mouseleave', function () {
-                        if (currentActiveTab === 'details' && this !== selectedDetailRow) {
-                            // Для hotspot - сбрасываем если не выбран
-                            if (svgDoc && !selectedHotspotIds.includes(hotspotId)) {
-                                resetHotspot(hotspotId);
-                            }
-                        }
-                    });
+    function handleHotspotMouseLeave(hotspotId) {
+        if (currentActiveTab === 'cutting') return;
 
-                    row.addEventListener('click', function (e) {
-                        if (currentActiveTab !== 'details' || e.target.classList.contains('pdf-btn')) {
-                            return;
-                        }
+        // Если hotspot не выбран, сбрасываем его подсветку
+        if (!selectedHotspotIds.includes(hotspotId.toString())) {
+            resetHotspot(hotspotId);
+        }
+    }
 
-                        resetAllHighlights();
+    // Найти сборку по hotspot
+    function findAssemblyByHotspot(hotspotId) {
+        const assemblyRows = document.querySelectorAll('#assembliesTable tbody tr');
+        for (const row of assemblyRows) {
+            const hotspotsStr = row.getAttribute('data-hotspots');
+            const hotspots = hotspotsStr ? hotspotsStr.split(',').map(id => id.trim()) : [];
+            if (hotspots.includes(hotspotId.toString())) {
+                return row;
+            }
+        }
+        return null;
+    }
 
-                        // Выделяем текущую строку ярко
-                        this.classList.add('selected-row');
-                        selectedDetailRow = this;
+    // Выделить сборку
+    function selectAssembly(assemblyRow) {
+        resetAllHighlights();
 
-                        // Выделяем соответствующий hotspot ярко (синий, opacity 0.7)
-                        highlightHotspotSelected(hotspotId);
-                        selectedHotspotIds = [hotspotId];
-                    });
-                });
+        // Выделяем строку сборки ярко
+        assemblyRow.classList.add('assembly-selected');
+        selectedAssemblyRow = assemblyRow;
 
-                // Обработка строк таблицы сборок
-                const assemblyRows = document.querySelectorAll('#assembliesTable tbody tr');
-                assemblyRows.forEach(row => {
-                    const hotspotsStr = row.getAttribute('data-hotspots');
-                    const hotspots = hotspotsStr ? hotspotsStr.split(',').map(id => id.trim()) : [];
+        // Получаем hotspots сборки
+        const hotspotsStr = assemblyRow.getAttribute('data-hotspots');
+        const hotspots = hotspotsStr ? hotspotsStr.split(',').map(id => id.trim()) : [];
+        selectedHotspotIds = hotspots;
 
-                    row.addEventListener('mouseenter', function () {
-                        if (currentActiveTab === 'assemblies' && this !== selectedAssemblyRow) {
-                            // Бледная подсветка строки сборки
-                            this.classList.add('assembly-highlight');
-
-                            // Бледная подсветка всех деталей сборки (зеленый, opacity 0.3)
-                            if (svgDoc) {
-                                hotspots.forEach(id => {
-                                    if (!selectedHotspotIds.includes(id)) {
-                                        highlightHotspotHover(id);
-                                    }
-                                });
-                            }
-
-                            // Для строк деталей - стандартный hover
-                        }
-                    });
-
-                    row.addEventListener('mouseleave', function () {
-                        if (currentActiveTab === 'assemblies' && this !== selectedAssemblyRow) {
-                            // Убираем бледную подсветку строки сборки
-                            this.classList.remove('assembly-highlight');
-
-                            // Снимаем бледную подсветку с деталей
-                            if (svgDoc) {
-                                hotspots.forEach(id => {
-                                    if (!selectedHotspotIds.includes(id)) {
-                                        resetHotspot(id);
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-                    row.addEventListener('click', function (e) {
-                        if (currentActiveTab !== 'assemblies' || e.target.classList.contains('pdf-btn')) {
-                            return;
-                        }
-
-                        selectAssembly(this);
-                    });
-                });
-
-                // Сброс всех выделений
-                function resetAllHighlights() {
-                    // Сбрасываем выделенные строки
-                    document.querySelectorAll('.selected-row').forEach(row => {
-                        row.classList.remove('selected-row');
-                    });
-                    document.querySelectorAll('.assembly-selected').forEach(row => {
-                        row.classList.remove('assembly-selected');
-                    });
-
-                    // Для assembly-highlight не нужно сбрасывать, он убирается при mouseleave
-
-                    selectedDetailRow = null;
-                    selectedAssemblyRow = null;
-
-                    // Сбрасываем выделенные hotspots
-                    if (svgDoc) {
-                        for (let i = 0; i <= 28; i++) {
-                            resetHotspot(i);
-                        }
-                    }
-                    selectedHotspotIds = [];
-                }
-
-                // Модальное окно для PDF (только по кнопке)
-                const pdfModal = document.getElementById('pdfModal');
-                const pdfViewer = document.getElementById('pdfViewer');
-                const pdfTitle = document.getElementById('pdfTitle');
-                const closeBtn = document.querySelector('.close');
-
-                document.querySelectorAll('.pdf-btn').forEach(btn => {
-                    btn.addEventListener('click', function (e) {
-                        e.stopPropagation();
-                        const row = this.closest('tr');
-                        const pdfUrl = row.getAttribute('data-pdf');
-                        const tooltip = row.getAttribute('data-tooltip') || row.cells[1]?.textContent || 'Чертеж';
-
-                        if (pdfUrl) {
-                            openPdfModal(pdfUrl, tooltip);
-                        } else {
-                            openPdfModal('sample.pdf', tooltip);
-                        }
-                    });
-                });
-
-                function openPdfModal(pdfUrl, title = 'Чертеж') {
-                    pdfTitle.textContent = `Просмотр: ${title}`;
-                    const encodedUrl = encodeURI(pdfUrl);
-                    pdfViewer.src = encodedUrl;
-                    pdfModal.style.display = 'block';
-
-                    setTimeout(() => {
-                        pdfViewer.focus();
-                    }, 100);
-                }
-
-                closeBtn.addEventListener('click', function () {
-                    closePdfModal();
-                });
-
-                window.addEventListener('click', function (e) {
-                    if (e.target === pdfModal) {
-                        closePdfModal();
-                    }
-                });
-
-                document.addEventListener('keydown', function (e) {
-                    if (e.key === 'Escape' && pdfModal.style.display === 'block') {
-                        closePdfModal();
-                    }
-                });
-
-                function closePdfModal() {
-                    pdfModal.style.display = 'none';
-                    pdfViewer.src = '';
-                }
+        // Выделяем hotspots сборки ярко (синий, opacity 0.7)
+        if (svgDoc) {
+            hotspots.forEach(id => {
+                highlightHotspotSelected(id);
             });
-        </script>
+        }
+    }
 
-        <!-- Модальное окно для PDF -->
-        <div id="pdfModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <div class="modal-header">
-                    <h3 id="pdfTitle">Просмотр чертежа</h3>
-                </div>
-                <div class="modal-body">
-                    <iframe id="pdfViewer" width="100%" height="100%"></iframe>
-                </div>
-            </div>
-        </div>
+    // Обработка строк таблицы деталей
+    const detailRows = document.querySelectorAll('#specificationTable tbody tr');
+    detailRows.forEach(row => {
+        const hotspotId = row.getAttribute('data-hotspot');
+
+        row.addEventListener('mouseenter', function () {
+            if (currentActiveTab === 'details' && this !== selectedDetailRow) {
+                // Для hotspot - бледная подсветка (зеленый, opacity 0.3)
+                if (svgDoc && !selectedHotspotIds.includes(hotspotId)) {
+                    highlightHotspotHover(hotspotId);
+                }
+            }
+        });
+
+        row.addEventListener('mouseleave', function () {
+            if (currentActiveTab === 'details' && this !== selectedDetailRow) {
+                // Для hotspot - сбрасываем если не выбран
+                if (svgDoc && !selectedHotspotIds.includes(hotspotId)) {
+                    resetHotspot(hotspotId);
+                }
+            }
+        });
+
+        row.addEventListener('click', function (e) {
+            // Если клик был по кнопке PDF, не выделяем строку
+            if (currentActiveTab !== 'details' || e.target.classList.contains('pdf-btn')) {
+                return;
+            }
+
+            resetAllHighlights();
+
+            // Выделяем текущую строку ярко
+            this.classList.add('selected-row');
+            selectedDetailRow = this;
+
+            // Выделяем соответствующий hotspot ярко (синий, opacity 0.7)
+            highlightHotspotSelected(hotspotId);
+            selectedHotspotIds = [hotspotId];
+        });
+    });
+
+    // Обработка строк таблицы сборок
+    const assemblyRows = document.querySelectorAll('#assembliesTable tbody tr');
+    assemblyRows.forEach(row => {
+        const hotspotsStr = row.getAttribute('data-hotspots');
+        const hotspots = hotspotsStr ? hotspotsStr.split(',').map(id => id.trim()) : [];
+
+        row.addEventListener('mouseenter', function () {
+            if (currentActiveTab === 'assemblies' && this !== selectedAssemblyRow) {
+                // Бледная подсветка строки сборки
+                this.classList.add('assembly-highlight');
+
+                // Бледная подсветка всех деталей сборки (зеленый, opacity 0.3)
+                if (svgDoc) {
+                    hotspots.forEach(id => {
+                        if (!selectedHotspotIds.includes(id)) {
+                            highlightHotspotHover(id);
+                        }
+                    });
+                }
+            }
+        });
+
+        row.addEventListener('mouseleave', function () {
+            if (currentActiveTab === 'assemblies' && this !== selectedAssemblyRow) {
+                // Убираем бледную подсветку строки сборки
+                this.classList.remove('assembly-highlight');
+
+                // Снимаем бледную подсветку с деталей
+                if (svgDoc) {
+                    hotspots.forEach(id => {
+                        if (!selectedHotspotIds.includes(id)) {
+                            resetHotspot(id);
+                        }
+                    });
+                }
+            }
+        });
+
+        row.addEventListener('click', function (e) {
+            // Если клик был по кнопке PDF, не выделяем сборку
+            if (currentActiveTab !== 'assemblies' || e.target.classList.contains('pdf-btn')) {
+                return;
+            }
+
+            selectAssembly(this);
+        });
+    });
+
+    // Обработка кликов по кнопкам PDF - открытие в новой вкладке
+    document.querySelectorAll('.pdf-btn').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation(); // Чтобы не срабатывал клик по строке
+            const row = this.closest('tr');
+            const pdfUrl = row.getAttribute('data-pdf');
+            
+            if (pdfUrl) {
+                // Заменяем обратные слеши на прямые для совместимости
+                const normalizedUrl = pdfUrl.replace(/\\/g, '/');
+                // Открываем PDF в новой вкладке
+                window.open(normalizedUrl, '_blank');
+            }
+        });
+    });
+
+    // Сброс всех выделений
+    function resetAllHighlights() {
+        // Сбрасываем выделенные строки
+        document.querySelectorAll('.selected-row').forEach(row => {
+            row.classList.remove('selected-row');
+        });
+        document.querySelectorAll('.assembly-selected').forEach(row => {
+            row.classList.remove('assembly-selected');
+        });
+
+        selectedDetailRow = null;
+        selectedAssemblyRow = null;
+
+        // Сбрасываем выделенные hotspots
+        if (svgDoc) {
+            for (let i = 0; i <= 28; i++) {
+                resetHotspot(i);
+            }
+        }
+        selectedHotspotIds = [];
+    }
+});
+                    
+        </script>
 </body>
 
 
 </html>
+
 
