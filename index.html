@@ -303,9 +303,273 @@
             border-bottom: none;
         }
 
-        /* Стили для hotspots */
-        /* Убираем общие стили, будем управлять через JavaScript для точного контроля */
-    </style>
+
+
+
+
+            /* Стили для вкладки раскроя */
+.cutting-tab {
+    overflow-y: auto;
+}
+
+.cutting-full {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cutting-controls {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.cutting-controls h2 {
+    margin-top: 0;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.control-group label {
+    font-weight: 500;
+    color: #495057;
+    font-size: 14px;
+}
+
+.control-group input,
+.control-group select {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+}
+
+.control-group input:focus,
+.control-group select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0,123,255,.25);
+}
+
+.cut-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+    display: block;
+}
+
+.cut-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.cut-btn:active {
+    transform: translateY(0);
+}
+
+.cutting-results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Материал секция */
+.material-section {
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.material-section h2 {
+    margin-top: 0;
+    color: #495057;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+/* Раскрой план */
+.cutting-plan-item {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+}
+
+.cutting-plan-item h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+/* Визуализация заготовки */
+.stock-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stock {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    border: 2px solid #343a40;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #e9ecef;
+}
+
+.part {
+    height: 100%;
+    background-color: #28a745;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    box-sizing: border-box;
+    transition: all 0.2s;
+}
+
+.part:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+.cut-visual {
+    height: 100%;
+    background-color: #343a40;
+    min-width: 2px;
+}
+
+.waste {
+    height: 100%;
+    background-color: #dc3545;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.waste-label {
+    font-size: 12px;
+    color: #6c757d;
+    text-align: right;
+    margin-top: 4px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+
+/* Сводка */
+.summary {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.summary h3, .summary h4 {
+    margin-top: 0;
+    color: #495057;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.summary p {
+    margin: 8px 0;
+    font-size: 14px;
+}
+
+.summary strong {
+    color: #495057;
+}
+
+/* Адаптивность для вкладки раскроя */
+@media (max-width: 768px) {
+    .cutting-full {
+        padding: 10px;
+    }
+    
+    .controls-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .cutting-controls {
+        padding: 15px;
+    }
+    
+    .cut-btn {
+        width: 100%;
+        max-width: none;
+    }
+    
+    .material-section {
+        padding: 15px;
+    }
+    
+    .stock {
+        height: 30px;
+    }
+    
+    .part, .waste {
+        font-size: 10px;
+    }
+}
+
+/* Предотвращение подъема страницы на мобильных */
+@media (max-width: 768px) {
+    .cutting-tab {
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+    
+    .cutting-results {
+        overflow-y: auto;
+    }
+}
+         </style>
 </head>
 
 <body class="container">
@@ -917,5 +1181,6 @@
 
 
 </html>
+
 
 
