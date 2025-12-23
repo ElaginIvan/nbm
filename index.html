@@ -1430,6 +1430,8 @@ for (const part of partsToCut) {
         grandTotalWaste += materialTotalWaste;
         grandTotalStocks += materialTotalStocks;
             }
+                    // Прокручиваем к результатам
+    resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });            
             }                   
     }
 
@@ -1440,6 +1442,7 @@ initializeCuttingCalculator();
 
 
 </html>
+
 
 
 
