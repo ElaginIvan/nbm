@@ -852,12 +852,46 @@
             </div>
         </div>
 
-        <!-- Вкладка Раскрой -->
-        <div id="cutting" class="tab-content">
-            <div class="cutting-full">
-                <!-- Контент вкладки раскроя -->
+    <!-- Вкладка Раскрой -->
+<div id="cutting" class="tab-content cutting-tab">
+    <div class="cutting-full">
+        <div class="cutting-controls">
+            <h2>Калькулятор линейного раскроя</h2>
+            
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="stockLengthSelect">Длина заготовки:</label>
+                    <select id="stockLengthSelect">
+                        <option value="6000" selected>6000 мм</option>
+                        <option value="12000">12000 мм</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="kerfSelect">Ширина реза:</label>
+                    <select id="kerfSelect">
+                        <option value="1.6" selected>1.6 мм</option>
+                        <option value="2">2.0 мм</option>
+                        <option value="3">3.0 мм</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="multiplicity">Кратность:</label>
+                    <input type="number" id="multiplicity" value="1" min="1">
+                </div>
             </div>
+            
+            <button id="cutButton" class="cut-btn">Раскроить</button>
         </div>
+
+        <div id="results-container" class="cutting-results">
+            <!-- Результаты раскроя будут вставлены сюда -->
+        </div>
+
+        <div id="summary-container" class="summary" style="display: none;">
+            <!-- Общая сводная информация будет здесь -->
+        </div>
+    </div>
+</div>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -1181,6 +1215,7 @@
 
 
 </html>
+
 
 
 
