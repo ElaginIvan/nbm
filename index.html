@@ -1308,131 +1308,149 @@ for (const part of partsToCut) {
         visualizeAllResults(allResults, stockLength, kerf, multiplicity);
     });
 
-    function visualizeAllResults(allResults, stockLength, kerf, multiplicity) {
-        resultsContainer.innerHTML = '';
-        summaryContainer.style.display = 'none';
+                        function visualizeAllResults(allResults, stockLength, kerf, multiplicity) {
+    resultsContainer.innerHTML = '';
+    summaryContainer.style.display = 'none';
 
-        if (allResults.size === 0) {
-            resultsContainer.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 20px;">Нет деталей для раскроя.</p>';
-            return;
-        }
+    if (allResults.size === 0) {
+        resultsContainer.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 20px;">Нет деталей для раскроя.</p>';
+        return;
+    }
 
-        let grandTotalWaste = 0;
-        let grandTotalStocks = 0;
+    let grandTotalWaste = 0;
+    let grandTotalStocks = 0;
 
-        for (const [materialName, data] of allResults.entries()) {
-            const materialSection = document.createElement('section');
-            materialSection.className = 'material-section';
+    for (const [materialName, data] of allResults.entries()) {
+        const materialSection = document.createElement('section');
+        materialSection.className = 'material-section';
 
-            const materialTitle = document.createElement('h2');
-            materialTitle.textContent = `Материал: ${materialName}`;
-            materialSection.appendChild(materialTitle);
+        const materialTitle = document.createElement('h2');
+        materialTitle.textContent = `Материал: ${materialName}`;
+        materialSection.appendChild(materialTitle);
 
-            let materialTotalWaste = 0;
-            let materialTotalStocks = 0;
+        let materialTotalWaste = 0;
+        let materialTotalStocks = 0;
 
-            data.plan.forEach((groupData) => {
-                const { parts, count } = groupData;
-                materialTotalStocks += count;
+        data.plan.forEach((groupData) => {
+            const { parts, count } = groupData;
+            materialTotalStocks += count;
 
-                const stockElement = document.createElement('div');
-                stockElement.className = 'cutting-plan-item';
+            const stockElement = document.createElement('div');
+            stockElement.className = 'cutting-plan-item';
 
-                const title = document.createElement('h3');
-                title.textContent = `${materialName} L=${stockLength} мм (${count} шт.)`;
-                stockElement.appendChild(title);
+            const title = document.createElement('h3');
+            title.textContent = `${materialName} L=${stockLength} мм (${count} шт.)`;
+            stockElement.appendChild(title);
 
-                const stockWrapper = document.createElement('div');
-                stockWrapper.className = 'stock-wrapper';
-                const stockVisual = document.createElement('div');
-                stockVisual.className = 'stock';
+            const stockWrapper = document.createElement('div');
+            stockWrapper.className = 'stock-wrapper';
+            const stockVisual = document.createElement('div');
+            stockVisual.className = 'stock';
 
-                // Группируем одинаковые детали для отображения
-                const groupedParts = [];
-                let currentGroup = null;
-                for (const part of parts) {
-                    if (currentGroup && currentGroup.length === part.length) {
-                        currentGroup.count++;
-                    } else {
-                        if (currentGroup) groupedParts.push(currentGroup);
-                        currentGroup = { length: part.length, count: 1 };
-                    }
+            // Группируем одинаковые детали для отображения
+            const groupedParts = [];
+            let currentGroup = null;
+            for (const part of parts) {
+                if (currentGroup && currentGroup.length === part.length) {
+                    currentGroup.count++;
+                } else {
+                    if (currentGroup) groupedParts.push(currentGroup);
+                    currentGroup = { length: part.length, count: 1 };
                 }
-                if (currentGroup) groupedParts.push(currentGroup);
+            }
+            if (currentGroup) groupedParts.push(currentGroup);
 
-                let usedLengthWithKerf = 0;
-                const numberOfGroups = groupedParts.length;
+            // ПРАВИЛЬНЫЙ расчет использованной длины с учетом резов
+            // Для N деталей нужно N резов (каждая деталь отрезается)
+            let usedLengthWithKerf = 0;
+            let totalNumberOfParts = 0;
+            
+            // Считаем общую длину деталей и количество деталей
+            groupedParts.forEach(group => {
+                usedLengthWithKerf += group.length * group.count;
+                totalNumberOfParts += group.count;
+            });
+            
+            // Добавляем резы: для каждой детали нужен рез
+            usedLengthWithKerf += totalNumberOfParts * kerf;
 
-                groupedParts.forEach((group, index) => {
-                    const groupTotalLength = group.length * group.count + (group.count - 1) * kerf;
-                    usedLengthWithKerf += groupTotalLength;
+            const numberOfGroups = groupedParts.length;
 
-                    const partElement = document.createElement('div');
-                    partElement.className = 'part';
-                    partElement.style.width = `${(groupTotalLength / stockLength) * 100}%`;
-                    partElement.textContent = group.count > 1 ? `${group.length}x${group.count}` : `${group.length}`;
-                    stockVisual.appendChild(partElement);
+            groupedParts.forEach((group, groupIndex) => {
+                const groupTotalLength = group.length * group.count;
+                // Резы для каждой детали в группе
+                const groupCutsLength = group.count * kerf;
+                const groupWidth = (groupTotalLength + groupCutsLength) / stockLength * 100;
 
-                    if (index < numberOfGroups - 1) {
-                        usedLengthWithKerf += kerf;
-                        const cutElement = document.createElement('div');
-                        cutElement.className = 'cut-visual';
-                        cutElement.style.width = `${(kerf / stockLength) * 100}%`;
-                        stockVisual.appendChild(cutElement);
-                    }
-                });
+                const partElement = document.createElement('div');
+                partElement.className = 'part';
+                partElement.style.width = `${groupWidth}%`;
+                partElement.textContent = group.count > 1 ? `${group.length}x${group.count}` : `${group.length}`;
+                stockVisual.appendChild(partElement);
 
-                const waste = stockLength - usedLengthWithKerf;
-                materialTotalWaste += waste * count;
-
-                if (waste > 0) {
-                    const wasteElement = document.createElement('div');
-                    wasteElement.className = 'waste';
-                    wasteElement.style.width = `${(waste / stockLength) * 100}%`;
-                    wasteElement.textContent = waste > 10 ? `${Math.round(waste)}` : '';
-                    stockVisual.appendChild(wasteElement);
-
-                    const wasteLabel = document.createElement('p');
-                    wasteLabel.className = 'waste-label';
-                    wasteLabel.textContent = `Остаток - ${Math.round(waste)} мм`;
-                    stockWrapper.appendChild(wasteLabel);
+                // Добавляем визуализацию реза между группами (кроме последней группы)
+                if (groupIndex < numberOfGroups - 1) {
+                    const cutElement = document.createElement('div');
+                    cutElement.className = 'cut-visual';
+                    cutElement.style.width = `${(kerf / stockLength) * 100}%`;
+                    stockVisual.appendChild(cutElement);
                 }
-                
-                stockWrapper.appendChild(stockVisual);
-                stockElement.appendChild(stockWrapper);
-                materialSection.appendChild(stockElement);
             });
 
-            const materialSummary = document.createElement('div');
-            materialSummary.className = 'summary';
-            materialSummary.innerHTML = `
-                <h4>Сводка по "${materialName}"</h4>
-                <p><strong>Использовано заготовок:</strong> ${materialTotalStocks} шт.</p>
-                <p><strong>Общий отход:</strong> ${Math.round(materialTotalWaste)} мм</p>
-            `;
-            materialSection.appendChild(materialSummary);
-            resultsContainer.appendChild(materialSection);
+            // Остаток - это просто разница между длиной заготовки и использованной длиной
+            const waste = stockLength - usedLengthWithKerf;
+            materialTotalWaste += waste * count;
 
-            grandTotalWaste += materialTotalWaste;
-            grandTotalStocks += materialTotalStocks;
-        }
+            if (waste > 0) {
+                const wasteElement = document.createElement('div');
+                wasteElement.className = 'waste';
+                wasteElement.style.width = `${(waste / stockLength) * 100}%`;
+                wasteElement.textContent = waste > 10 ? `${Math.round(waste)}` : '';
+                stockVisual.appendChild(wasteElement);
 
-        // Общая сводка
-        const grandTotalParts = Object.values(materialsData).reduce((sum, parts) => 
-            sum + parts.reduce((pSum, item) => pSum + item.quantity * multiplicity, 0), 0
-        );
-        
-        summaryContainer.innerHTML = `
-            <h3>Общая сводка по всем материалам</h3>
-            <p><strong>Всего использовано заготовок:</strong> ${grandTotalStocks} шт.</p>
-            <p><strong>Общий отход по всем материалам:</strong> ${Math.round(grandTotalWaste)} мм</p>
-            <p><strong>Всего деталей:</strong> ${grandTotalParts} шт.</p>
+                const wasteLabel = document.createElement('p');
+                wasteLabel.className = 'waste-label';
+                wasteLabel.textContent = `Остаток - ${Math.round(waste)} мм`;
+                stockWrapper.appendChild(wasteLabel);
+            }
+            
+            stockWrapper.appendChild(stockVisual);
+            stockElement.appendChild(stockWrapper);
+            materialSection.appendChild(stockElement);
+        });
+
+        const materialSummary = document.createElement('div');
+        materialSummary.className = 'summary';
+        materialSummary.innerHTML = `
+            <h4>Сводка по "${materialName}"</h4>
+            <p><strong>Использовано заготовок:</strong> ${materialTotalStocks} шт.</p>
+            <p><strong>Общий отход:</strong> ${Math.round(materialTotalWaste)} мм</p>
+            <p><em>Примечание: Учитываются резы после каждой детали</em></p>
         `;
-        summaryContainer.style.display = 'block';
-        
-        // Прокручиваем к результатам
-        resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        materialSection.appendChild(materialSummary);
+        resultsContainer.appendChild(materialSection);
+
+        grandTotalWaste += materialTotalWaste;
+        grandTotalStocks += materialTotalStocks;
     }
+
+    // Общая сводка
+    const grandTotalParts = Object.values(materialsData).reduce((sum, parts) => 
+        sum + parts.reduce((pSum, item) => pSum + item.quantity * multiplicity, 0), 0
+    );
+    
+    summaryContainer.innerHTML = `
+        <h3>Общая сводка по всем материалам</h3>
+        <p><strong>Всего использовано заготовок:</strong> ${grandTotalStocks} шт.</p>
+        <p><strong>Общий отход по всем материалам:</strong> ${Math.round(grandTotalWaste)} мм</p>
+        <p><strong>Всего деталей:</strong> ${grandTotalParts} шт.</p>
+        <p><em>Расчет включает резы после каждой детали</em></p>
+    `;
+    summaryContainer.style.display = 'block';
+    
+    // Прокручиваем к результатам
+    resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 }
 
 // Инициализируем калькулятор при загрузке страницы
@@ -1442,6 +1460,7 @@ initializeCuttingCalculator();
 
 
 </html>
+
 
 
 
