@@ -887,9 +887,6 @@
             <!-- Результаты раскроя будут вставлены сюда -->
         </div>
 
-        <div id="summary-container" class="summary" style="display: none;">
-            <!-- Общая сводная информация будет здесь -->
-        </div>
     </div>
 </div>
 
@@ -1434,25 +1431,6 @@ for (const part of partsToCut) {
         grandTotalStocks += materialTotalStocks;
     }
 
-    // Общая сводка
-    const grandTotalParts = Object.values(materialsData).reduce((sum, parts) => 
-        sum + parts.reduce((pSum, item) => pSum + item.quantity * multiplicity, 0), 0
-    );
-    
-    summaryContainer.innerHTML = `
-        <h3>Общая сводка по всем материалам</h3>
-        <p><strong>Всего использовано заготовок:</strong> ${grandTotalStocks} шт.</p>
-        <p><strong>Общий отход по всем материалам:</strong> ${Math.round(grandTotalWaste)} мм</p>
-        <p><strong>Всего деталей:</strong> ${grandTotalParts} шт.</p>
-        <p><em>Расчет включает резы после каждой детали</em></p>
-    `;
-    summaryContainer.style.display = 'block';
-    
-    // Прокручиваем к результатам
-    resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-}
-
 // Инициализируем калькулятор при загрузке страницы
 initializeCuttingCalculator();      
         </script>
@@ -1460,6 +1438,7 @@ initializeCuttingCalculator();
 
 
 </html>
+
 
 
 
