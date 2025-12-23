@@ -1209,12 +1209,229 @@
         selectedHotspotIds = [];
     }
 });
-                    
+
+
+
+      // --- КАЛЬКУЛЯТОР РАСКРОЯ ---
+
+// ИСХОДНЫЕ ДАННЫЕ ПО МАТЕРИАЛАМ (можно изменять)
+const materialsData = {
+    'Брусок 50х50': [
+        { length: 1550, quantity: 8 },
+        { length: 2100, quantity: 3 }
+    ],
+    'Рейка 25х50': [
+        { length: 920, quantity: 4 },
+        { length: 730, quantity: 6 }
+    ]
+};
+
+// Инициализация калькулятора раскроя при переключении на вкладку
+function initializeCuttingCalculator() {
+    const stockLengthSelect = document.getElementById('stockLengthSelect');
+    const kerfSelect = document.getElementById('kerfSelect');
+    const multiplicityInput = document.getElementById('multiplicity');
+    const cutButton = document.getElementById('cutButton');
+    const resultsContainer = document.getElementById('results-container');
+    const summaryContainer = document.getElementById('summary-container');
+    
+    if (!cutButton) return; // Если элементов нет на странице
+    
+    cutButton.addEventListener('click', () => {
+        const stockLength = parseInt(stockLengthSelect.value);
+        const kerf = parseFloat(kerfSelect.value);
+        const multiplicity = parseInt(multiplicityInput.value);
+
+        if (isNaN(multiplicity) || multiplicity < 1) {
+            alert('Пожалуйста, введите корректное значение кратности (целое число > 0).');
+            return;
+        }
+
+        const allResults = new Map();
+
+        // Итерируемся по каждому материалу отдельно
+        for (const [materialName, parts] of Object.entries(materialsData)) {
+            const partsToCut = [];
+            for (const item of parts) {
+                if (item.length > stockLength) {
+                    alert(`Ошибка: Деталь длиной ${item.length}мм из материала "${materialName}" не помещается на заготовку ${stockLength}мм.`);
+                    return;
+                }
+                for (let i = 0; i < item.quantity * multiplicity; i++) {
+                    partsToCut.push({ length: item.length });
+                }
+            }
+            if (partsToCut.length === 0) continue;
+
+            // Алгоритм FFD для текущего материала
+            partsToCut.sort((a, b) => b.length - a.length);
+            const cuttingPlan = [];
+            for (const part of partsToCut) {
+                let placed = false;
+                for (const stock of cuttingPlan) {
+                    const usedLength = stock.reduce((sum, p) => sum + p.length, 0) + (stock.length > 0 ? (stock.length - 1) * kerf : 0);
+                    if (stockLength - usedLength >= part.length) {
+                        stock.push(part);
+                        placed = true;
+                        break;
+                    }
+                }
+                if (!placed) {
+                    cuttingPlan.push([part]);
+                }
+            }
+
+            // Группировка одинаковых раскроев
+            const groupedPlan = new Map();
+            for (const stock of cuttingPlan) {
+                const key = stock.map(p => p.length).sort((a, b) => a - b).join(',');
+                if (groupedPlan.has(key)) {
+                    groupedPlan.get(key).count++;
+                } else {
+                    groupedPlan.set(key, { parts: stock, count: 1 });
+                }
+            }
+            allResults.set(materialName, { plan: groupedPlan });
+        }
+
+        visualizeAllResults(allResults, stockLength, kerf, multiplicity);
+    });
+
+    function visualizeAllResults(allResults, stockLength, kerf, multiplicity) {
+        resultsContainer.innerHTML = '';
+        summaryContainer.style.display = 'none';
+
+        if (allResults.size === 0) {
+            resultsContainer.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 20px;">Нет деталей для раскроя.</p>';
+            return;
+        }
+
+        let grandTotalWaste = 0;
+        let grandTotalStocks = 0;
+
+        for (const [materialName, data] of allResults.entries()) {
+            const materialSection = document.createElement('section');
+            materialSection.className = 'material-section';
+
+            const materialTitle = document.createElement('h2');
+            materialTitle.textContent = `Материал: ${materialName}`;
+            materialSection.appendChild(materialTitle);
+
+            let materialTotalWaste = 0;
+            let materialTotalStocks = 0;
+
+            data.plan.forEach((groupData) => {
+                const { parts, count } = groupData;
+                materialTotalStocks += count;
+
+                const stockElement = document.createElement('div');
+                stockElement.className = 'cutting-plan-item';
+
+                const title = document.createElement('h3');
+                title.textContent = `${materialName} L=${stockLength} мм (${count} шт.)`;
+                stockElement.appendChild(title);
+
+                const stockWrapper = document.createElement('div');
+                stockWrapper.className = 'stock-wrapper';
+                const stockVisual = document.createElement('div');
+                stockVisual.className = 'stock';
+
+                // Группируем одинаковые детали для отображения
+                const groupedParts = [];
+                let currentGroup = null;
+                for (const part of parts) {
+                    if (currentGroup && currentGroup.length === part.length) {
+                        currentGroup.count++;
+                    } else {
+                        if (currentGroup) groupedParts.push(currentGroup);
+                        currentGroup = { length: part.length, count: 1 };
+                    }
+                }
+                if (currentGroup) groupedParts.push(currentGroup);
+
+                let usedLengthWithKerf = 0;
+                const numberOfGroups = groupedParts.length;
+
+                groupedParts.forEach((group, index) => {
+                    const groupTotalLength = group.length * group.count + (group.count - 1) * kerf;
+                    usedLengthWithKerf += groupTotalLength;
+
+                    const partElement = document.createElement('div');
+                    partElement.className = 'part';
+                    partElement.style.width = `${(groupTotalLength / stockLength) * 100}%`;
+                    partElement.textContent = group.count > 1 ? `${group.length}x${group.count}` : `${group.length}`;
+                    stockVisual.appendChild(partElement);
+
+                    if (index < numberOfGroups - 1) {
+                        usedLengthWithKerf += kerf;
+                        const cutElement = document.createElement('div');
+                        cutElement.className = 'cut-visual';
+                        cutElement.style.width = `${(kerf / stockLength) * 100}%`;
+                        stockVisual.appendChild(cutElement);
+                    }
+                });
+
+                const waste = stockLength - usedLengthWithKerf;
+                materialTotalWaste += waste * count;
+
+                if (waste > 0) {
+                    const wasteElement = document.createElement('div');
+                    wasteElement.className = 'waste';
+                    wasteElement.style.width = `${(waste / stockLength) * 100}%`;
+                    wasteElement.textContent = waste > 10 ? `${Math.round(waste)}` : '';
+                    stockVisual.appendChild(wasteElement);
+
+                    const wasteLabel = document.createElement('p');
+                    wasteLabel.className = 'waste-label';
+                    wasteLabel.textContent = `Остаток - ${Math.round(waste)} мм`;
+                    stockWrapper.appendChild(wasteLabel);
+                }
+                
+                stockWrapper.appendChild(stockVisual);
+                stockElement.appendChild(stockWrapper);
+                materialSection.appendChild(stockElement);
+            });
+
+            const materialSummary = document.createElement('div');
+            materialSummary.className = 'summary';
+            materialSummary.innerHTML = `
+                <h4>Сводка по "${materialName}"</h4>
+                <p><strong>Использовано заготовок:</strong> ${materialTotalStocks} шт.</p>
+                <p><strong>Общий отход:</strong> ${Math.round(materialTotalWaste)} мм</p>
+            `;
+            materialSection.appendChild(materialSummary);
+            resultsContainer.appendChild(materialSection);
+
+            grandTotalWaste += materialTotalWaste;
+            grandTotalStocks += materialTotalStocks;
+        }
+
+        // Общая сводка
+        const grandTotalParts = Object.values(materialsData).reduce((sum, parts) => 
+            sum + parts.reduce((pSum, item) => pSum + item.quantity * multiplicity, 0), 0
+        );
+        
+        summaryContainer.innerHTML = `
+            <h3>Общая сводка по всем материалам</h3>
+            <p><strong>Всего использовано заготовок:</strong> ${grandTotalStocks} шт.</p>
+            <p><strong>Общий отход по всем материалам:</strong> ${Math.round(grandTotalWaste)} мм</p>
+            <p><strong>Всего деталей:</strong> ${grandTotalParts} шт.</p>
+        `;
+        summaryContainer.style.display = 'block';
+        
+        // Прокручиваем к результатам
+        resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// Инициализируем калькулятор при загрузке страницы
+initializeCuttingCalculator();      
         </script>
 </body>
 
 
 </html>
+
 
 
 
