@@ -307,269 +307,271 @@
 
 
 
-            /* Стили для вкладки раскроя */
-.cutting-tab {
-    overflow-y: auto;
-}
+        /* Стили для вкладки раскроя */
+        .cutting-tab {
+            overflow-y: auto;
+        }
 
-.cutting-full {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+        .cutting-full {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-.cutting-controls {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #dee2e6;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
+        .cutting-controls {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
 
-.cutting-controls h2 {
-    margin-top: 0;
-    color: #007bff;
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-}
+        .cutting-controls h2 {
+            margin-top: 0;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 0px;
+            font-size: 1.5rem;
+        }
 
-.controls-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
-}
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-.control-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
-.control-group label {
-    font-weight: 500;
-    color: #495057;
-    font-size: 14px;
-}
+        .control-group label {
+            font-weight: 500;
+            color: #495057;
+            font-size: 14px;
+        }
 
-.control-group input,
-.control-group select {
-    padding: 8px 12px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: white;
-}
+        .control-group input,
+        .control-group select {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: white;
+        }
 
-.control-group input:focus,
-.control-group select:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0,123,255,.25);
-}
+        .control-group input:focus,
+        .control-group select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, .25);
+        }
 
-.cut-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    width: 100%;
-    max-width: 200px;
-    margin: 0 auto;
-    display: block;
-}
+        .cut-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+            display: block;
+        }
 
-.cut-btn:hover {
-    background-color: #0056b3;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+        .cut-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-.cut-btn:active {
-    transform: translateY(0);
-}
+        .cut-btn:active {
+            transform: translateY(0);
+        }
 
-.cutting-results {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+        .cutting-results {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-/* Материал секция */
-.material-section {
-    background-color: white;
-    border-radius: 8px;
-    border: 1px solid #dee2e6;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
+        /* Материал секция */
+        .material-section {
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
 
-.material-section h2 {
-    margin-top: 0;
-    color: #495057;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    font-size: 1.3rem;
-}
+        .material-section h2 {
+            margin-top: 0;
+            color: #495057;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
 
-/* Раскрой план */
-.cutting-plan-item {
-    margin-bottom: 25px;
-    padding: 15px;
-    border: 1px solid #e9ecef;
-    border-radius: 6px;
-    background-color: #f8f9fa;
-}
+        /* Раскрой план */
+        .cutting-plan-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            background-color: #f8f9fa;
+        }
 
-.cutting-plan-item h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 14px;
-    color: #6c757d;
-    font-weight: 500;
-}
+        .cutting-plan-item h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #6c757d;
+            font-weight: 500;
+        }
 
-/* Визуализация заготовки */
-.stock-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
+        /* Визуализация заготовки */
+        .stock-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
-.stock {
-    width: 100%;
-    height: 40px;
-    display: flex;
-    border: 2px solid #343a40;
-    border-radius: 4px;
-    overflow: hidden;
-    background-color: #e9ecef;
-}
+        .stock {
+            width: 100%;
+            height: 40px;
+            display: flex;
+            border: 2px solid #343a40;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #e9ecef;
+        }
 
-.part {
-    height: 100%;
-    background-color: #28a745;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-    box-sizing: border-box;
-    transition: all 0.2s;
-}
+        .part {
+            height: 100%;
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+            transition: all 0.2s;
+        }
 
-.part:hover {
-    opacity: 0.9;
-    transform: scale(1.02);
-}
+        .part:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
 
-.cut-visual {
-    height: 100%;
-    background-color: #343a40;
-    min-width: 2px;
-}
+        .cut-visual {
+            height: 100%;
+            background-color: #343a40;
+            min-width: 2px;
+        }
 
-.waste {
-    height: 100%;
-    background-color: #dc3545;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-}
+        .waste {
+            height: 100%;
+            background-color: #dc3545;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
 
-.waste-label {
-    font-size: 12px;
-    color: #6c757d;
-    text-align: right;
-    margin-top: 4px;
-    margin-bottom: 0;
-    font-style: italic;
-}
+        .waste-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-align: right;
+            margin-top: 0;
+            margin-bottom: 0;
+            font-style: italic;
+        }
 
-/* Сводка */
-.summary {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 6px;
-    padding: 20px;
-    margin-top: 10px;
-}
+        /* Сводка */
+        .summary {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 10px;
+        }
 
-.summary h3, .summary h4 {
-    margin-top: 0;
-    color: #495057;
-    border-bottom: 1px solid #dee2e6;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
+        .summary h3,
+        .summary h4 {
+            margin-top: 0;
+            color: #495057;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
 
-.summary p {
-    margin: 8px 0;
-    font-size: 14px;
-}
+        .summary p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
 
-.summary strong {
-    color: #495057;
-}
+        .summary strong {
+            color: #495057;
+        }
 
-/* Адаптивность для вкладки раскроя */
-@media (max-width: 768px) {
-    .cutting-full {
-        padding: 10px;
-    }
-    
-    .controls-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    
-    .cutting-controls {
-        padding: 15px;
-    }
-    
-    .cut-btn {
-        width: 100%;
-        max-width: none;
-    }
-    
-    .material-section {
-        padding: 15px;
-    }
-    
-    .stock {
-        height: 30px;
-    }
-    
-    .part, .waste {
-        font-size: 10px;
-    }
-}
+        /* Адаптивность для вкладки раскроя */
+        @media (max-width: 768px) {
+            .cutting-full {
+                padding: 10px;
+            }
 
-/* Предотвращение подъема страницы на мобильных */
-@media (max-width: 768px) {
-    .cutting-tab {
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
-    }
-    
-    .cutting-results {
-        overflow-y: auto;
-    }
-}
-         </style>
+            .controls-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .cutting-controls {
+                padding: 10px;
+            }
+
+            .cut-btn {
+                width: 100%;
+                max-width: none;
+            }
+
+            .material-section {
+                padding: 10px;
+            }
+
+            .stock {
+                height: 30px;
+            }
+
+            .part,
+            .waste {
+                font-size: 10px;
+            }
+        }
+
+        /* Предотвращение подъема страницы на мобильных */
+        @media (max-width: 768px) {
+            .cutting-tab {
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
+            }
+
+            .cutting-results {
+                overflow-y: auto;
+            }
+        }
+    </style>
 </head>
 
 <body class="container">
@@ -852,615 +854,602 @@
             </div>
         </div>
 
-    <!-- Вкладка Раскрой -->
-<div id="cutting" class="tab-content cutting-tab">
-    <div class="cutting-full">
-        <div class="cutting-controls">
-            <h2>Калькулятор линейного раскроя</h2>
-            
-            <div class="controls-grid">
-                <div class="control-group">
-                    <label for="stockLengthSelect">Длина заготовки:</label>
-                    <select id="stockLengthSelect">
-                        <option value="6000" selected>6000 мм</option>
-                        <option value="12000">12000 мм</option>
-                    </select>
+        <!-- Вкладка Раскрой -->
+        <div id="cutting" class="tab-content cutting-tab">
+            <div class="cutting-full">
+                <div class="cutting-controls">
+
+                    <div class="controls-grid">
+                        <div class="control-group">
+                            <label for="stockLengthSelect">Длина заготовки:</label>
+                            <select id="stockLengthSelect">
+                                <option value="6000" selected>6000 мм</option>
+                                <option value="12000">12000 мм</option>
+                            </select>
+                        </div>
+                        <div class="control-group" for="kerfSelect">Ширина реза:</label>
+                            <select id="kerfSelect">
+                                <option value="1.6" selected>1.6 мм</option>
+                                <option value="2">2.0 мм</option>
+                                <option value="3">3.0 мм</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="multiplicity">Кратность:</label>
+                            <input type="number" id="multiplicity" value="1" min="1">
+                        </div>
+                    </div>
+
+                    <button id="cutButton" class="cut-btn">Раскроить</button>
                 </div>
-                <div class="control-group"д
-                    <label for="kerfSelect">Ширина реза:</label>
-                    <select id="kerfSelect">
-                        <option value="1.6" selected>1.6 мм</option>
-                        <option value="2">2.0 мм</option>
-                        <option value="3">3.0 мм</option>
-                    </select>
+
+                <div id="results-container" class="cutting-results">
+                    <!-- Результаты раскроя будут вставлены сюда -->
                 </div>
-                <div class="control-group">
-                    <label for="multiplicity">Кратность:</label>
-                    <input type="number" id="multiplicity" value="1" min="1">
+                <div id="summary-container" class="summary" style="display: none;">
+                    <!-- Общая сводная информация будет здесь -->
                 </div>
+
             </div>
-            
-            <button id="cutButton" class="cut-btn">Раскроить</button>
         </div>
-
-        <div id="results-container" class="cutting-results">
-            <!-- Результаты раскроя будут вставлены сюда -->
-        </div>
-        <div id="summary-container" class="summary" style="display: none;">
-            <!-- Общая сводная информация будет здесь -->
-        </div>
-
-    </div>
-</div>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-    // Элементы для управления
-    const svgObject = document.getElementById('svgObject');
-    const drawingContainer = document.getElementById('drawingContainer');
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
+                // Элементы для управления
+                const svgObject = document.getElementById('svgObject');
+                const drawingContainer = document.getElementById('drawingContainer');
+                const tabButtons = document.querySelectorAll('.tab-button');
+                const tabContents = document.querySelectorAll('.tab-content');
 
-    // Переменные состояния
-    let svgDoc = null;
-    let currentActiveTab = 'details';
-    let selectedDetailRow = null;
-    let selectedAssemblyRow = null;
-    let selectedHotspotIds = [];
+                // Переменные состояния
+                let svgDoc = null;
+                let currentActiveTab = 'details';
+                let selectedDetailRow = null;
+                let selectedAssemblyRow = null;
+                let selectedHotspotIds = [];
 
-    // Инициализация SVG
-    svgObject.addEventListener('load', function () {
-        svgDoc = svgObject.contentDocument;
-        initializeSVGInteractions();
-    });
+                // Инициализация SVG
+                svgObject.addEventListener('load', function () {
+                    svgDoc = svgObject.contentDocument;
+                    initializeSVGInteractions();
+                });
 
-    // Управление вкладками
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const tabId = button.getAttribute('data-tab');
-            const wasCuttingTab = currentActiveTab === 'cutting';
-            currentActiveTab = tabId;
+                // Управление вкладками
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const tabId = button.getAttribute('data-tab');
+                        const wasCuttingTab = currentActiveTab === 'cutting';
+                        currentActiveTab = tabId;
 
-            // Убираем активный класс у всех кнопок и контента
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active'));
+                        // Убираем активный класс у всех кнопок и контента
+                        tabButtons.forEach(btn => btn.classList.remove('active'));
+                        tabContents.forEach(content => content.classList.remove('active'));
 
-            // Добавляем активный класс текущей кнопке и соответствующему контенту
-            button.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
+                        // Добавляем активный класс текущей кнопке и соответствующему контенту
+                        button.classList.add('active');
+                        document.getElementById(tabId).classList.add('active');
 
-            // Управляем отображением чертежа
-            if (tabId === 'cutting') {
-                drawingContainer.classList.add('hidden');
-                document.querySelector('.tabs-container').style.height = 'calc(100% - 10px)';
-            } else {
-                drawingContainer.classList.remove('hidden');
-                document.querySelector('.tabs-container').style.height = 'calc(100% - 320px)';
-                if (wasCuttingTab) {
+                        // Управляем отображением чертежа
+                        if (tabId === 'cutting') {
+                            drawingContainer.classList.add('hidden');
+                            document.querySelector('.tabs-container').style.height = 'calc(100% - 10px)';
+                        } else {
+                            drawingContainer.classList.remove('hidden');
+                            document.querySelector('.tabs-container').style.height = 'calc(100% - 320px)';
+                            if (wasCuttingTab) {
+                                resetAllHighlights();
+                            }
+                        }
+
+                        // Сбрасываем выделение при переключении вкладок
+                        resetAllHighlights();
+                    });
+                });
+
+                // Инициализация взаимодействий с SVG
+                function initializeSVGInteractions() {
+                    if (!svgDoc) return;
+
+                    // Обработка кликов по hotspots в SVG
+                    for (let i = 0; i <= 28; i++) {
+                        const hotspot = svgDoc.getElementById(`hotspot.${i}`);
+                        if (hotspot) {
+                            // Удаляем старые обработчики если есть
+                            hotspot.removeEventListener('click', handleHotspotClick);
+                            hotspot.removeEventListener('mouseenter', handleHotspotMouseEnter);
+                            hotspot.removeEventListener('mouseleave', handleHotspotMouseLeave);
+
+                            // Добавляем новые обработчики
+                            hotspot.addEventListener('click', () => handleHotspotClick(i));
+                            hotspot.addEventListener('mouseenter', () => handleHotspotMouseEnter(i));
+                            hotspot.addEventListener('mouseleave', () => handleHotspotMouseLeave(i));
+
+                            // Устанавливаем начальную прозрачность
+                            hotspot.setAttribute('opacity', '0');
+                        }
+                    }
+                }
+
+                // Функции для управления подсветкой hotspots
+                function highlightHotspotSelected(hotspotId) {
+                    if (!svgDoc) return;
+                    const hotspot = svgDoc.getElementById(`hotspot.${hotspotId}`);
+                    if (hotspot) {
+                        // Яркая подсветка (синий, opacity 0.7) - для выбранных элементов
+                        hotspot.setAttribute('opacity', '0.7');
+                        hotspot.setAttribute('fill', '#007bff');
+                    }
+                }
+
+                function highlightHotspotHover(hotspotId) {
+                    if (!svgDoc) return;
+                    const hotspot = svgDoc.getElementById(`hotspot.${hotspotId}`);
+                    if (hotspot) {
+                        // Бледная подсветка (зеленый, opacity 0.3) - для наведения
+                        hotspot.setAttribute('opacity', '0.3');
+                        hotspot.setAttribute('fill', '#00ff00');
+                    }
+                }
+
+                function resetHotspot(hotspotId) {
+                    if (!svgDoc) return;
+                    const hotspot = svgDoc.getElementById(`hotspot.${hotspotId}`);
+                    if (hotspot) {
+                        // Сбрасываем к исходному состоянию
+                        hotspot.setAttribute('opacity', '0');
+                        hotspot.removeAttribute('fill');
+                        hotspot.removeAttribute('stroke');
+                        hotspot.removeAttribute('stroke-width');
+                    }
+                }
+
+                // Обработчики для hotspots
+                function handleHotspotClick(hotspotId) {
+                    if (currentActiveTab === 'cutting') return;
+
                     resetAllHighlights();
+
+                    if (currentActiveTab === 'details') {
+                        // Для деталей выделяем одну строку и один hotspot
+                        const correspondingRow = document.querySelector(`tr[data-hotspot="${hotspotId}"]`);
+                        if (correspondingRow) {
+                            correspondingRow.classList.add('selected-row');
+                            selectedDetailRow = correspondingRow;
+                            correspondingRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+
+                        // Выделяем hotspot ярко (синий, opacity 0.7)
+                        highlightHotspotSelected(hotspotId);
+                        selectedHotspotIds = [hotspotId.toString()];
+                    } else if (currentActiveTab === 'assemblies') {
+                        // Для сборок находим, к какой сборке относится hotspot
+                        const assemblyRow = findAssemblyByHotspot(hotspotId);
+                        if (assemblyRow) {
+                            selectAssembly(assemblyRow);
+                        }
+                    }
                 }
-            }
 
-            // Сбрасываем выделение при переключении вкладок
-            resetAllHighlights();
-        });
-    });
+                function handleHotspotMouseEnter(hotspotId) {
+                    if (currentActiveTab === 'cutting') return;
 
-    // Инициализация взаимодействий с SVG
-    function initializeSVGInteractions() {
-        if (!svgDoc) return;
-
-        // Обработка кликов по hotspots в SVG
-        for (let i = 0; i <= 28; i++) {
-            const hotspot = svgDoc.getElementById(`hotspot.${i}`);
-            if (hotspot) {
-                // Удаляем старые обработчики если есть
-                hotspot.removeEventListener('click', handleHotspotClick);
-                hotspot.removeEventListener('mouseenter', handleHotspotMouseEnter);
-                hotspot.removeEventListener('mouseleave', handleHotspotMouseLeave);
-
-                // Добавляем новые обработчики
-                hotspot.addEventListener('click', () => handleHotspotClick(i));
-                hotspot.addEventListener('mouseenter', () => handleHotspotMouseEnter(i));
-                hotspot.addEventListener('mouseleave', () => handleHotspotMouseLeave(i));
-
-                // Устанавливаем начальную прозрачность
-                hotspot.setAttribute('opacity', '0');
-            }
-        }
-    }
-
-    // Функции для управления подсветкой hotspots
-    function highlightHotspotSelected(hotspotId) {
-        if (!svgDoc) return;
-        const hotspot = svgDoc.getElementById(`hotspot.${hotspotId}`);
-        if (hotspot) {
-            // Яркая подсветка (синий, opacity 0.7) - для выбранных элементов
-            hotspot.setAttribute('opacity', '0.7');
-            hotspot.setAttribute('fill', '#007bff');
-        }
-    }
-
-    function highlightHotspotHover(hotspotId) {
-        if (!svgDoc) return;
-        const hotspot = svgDoc.getElementById(`hotspot.${hotspotId}`);
-        if (hotspot) {
-            // Бледная подсветка (зеленый, opacity 0.3) - для наведения
-            hotspot.setAttribute('opacity', '0.3');
-            hotspot.setAttribute('fill', '#00ff00');
-        }
-    }
-
-    function resetHotspot(hotspotId) {
-        if (!svgDoc) return;
-        const hotspot = svgDoc.getElementById(`hotspot.${hotspotId}`);
-        if (hotspot) {
-            // Сбрасываем к исходному состоянию
-            hotspot.setAttribute('opacity', '0');
-            hotspot.removeAttribute('fill');
-            hotspot.removeAttribute('stroke');
-            hotspot.removeAttribute('stroke-width');
-        }
-    }
-
-    // Обработчики для hotspots
-    function handleHotspotClick(hotspotId) {
-        if (currentActiveTab === 'cutting') return;
-
-        resetAllHighlights();
-
-        if (currentActiveTab === 'details') {
-            // Для деталей выделяем одну строку и один hotspot
-            const correspondingRow = document.querySelector(`tr[data-hotspot="${hotspotId}"]`);
-            if (correspondingRow) {
-                correspondingRow.classList.add('selected-row');
-                selectedDetailRow = correspondingRow;
-                correspondingRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-
-            // Выделяем hotspot ярко (синий, opacity 0.7)
-            highlightHotspotSelected(hotspotId);
-            selectedHotspotIds = [hotspotId.toString()];
-        } else if (currentActiveTab === 'assemblies') {
-            // Для сборок находим, к какой сборке относится hotspot
-            const assemblyRow = findAssemblyByHotspot(hotspotId);
-            if (assemblyRow) {
-                selectAssembly(assemblyRow);
-            }
-        }
-    }
-
-    function handleHotspotMouseEnter(hotspotId) {
-        if (currentActiveTab === 'cutting') return;
-
-        // Если hotspot не выбран, подсвечиваем его бледно (зеленый, opacity 0.3)
-        if (!selectedHotspotIds.includes(hotspotId.toString())) {
-            highlightHotspotHover(hotspotId);
-        }
-    }
-
-    function handleHotspotMouseLeave(hotspotId) {
-        if (currentActiveTab === 'cutting') return;
-
-        // Если hotspot не выбран, сбрасываем его подсветку
-        if (!selectedHotspotIds.includes(hotspotId.toString())) {
-            resetHotspot(hotspotId);
-        }
-    }
-
-    // Найти сборку по hotspot
-    function findAssemblyByHotspot(hotspotId) {
-        const assemblyRows = document.querySelectorAll('#assembliesTable tbody tr');
-        for (const row of assemblyRows) {
-            const hotspotsStr = row.getAttribute('data-hotspots');
-            const hotspots = hotspotsStr ? hotspotsStr.split(',').map(id => id.trim()) : [];
-            if (hotspots.includes(hotspotId.toString())) {
-                return row;
-            }
-        }
-        return null;
-    }
-
-    // Выделить сборку
-    function selectAssembly(assemblyRow) {
-        resetAllHighlights();
-
-        // Выделяем строку сборки ярко
-        assemblyRow.classList.add('assembly-selected');
-        selectedAssemblyRow = assemblyRow;
-
-        // Получаем hotspots сборки
-        const hotspotsStr = assemblyRow.getAttribute('data-hotspots');
-        const hotspots = hotspotsStr ? hotspotsStr.split(',').map(id => id.trim()) : [];
-        selectedHotspotIds = hotspots;
-
-        // Выделяем hotspots сборки ярко (синий, opacity 0.7)
-        if (svgDoc) {
-            hotspots.forEach(id => {
-                highlightHotspotSelected(id);
-            });
-        }
-    }
-
-    // Обработка строк таблицы деталей
-    const detailRows = document.querySelectorAll('#specificationTable tbody tr');
-    detailRows.forEach(row => {
-        const hotspotId = row.getAttribute('data-hotspot');
-
-        row.addEventListener('mouseenter', function () {
-            if (currentActiveTab === 'details' && this !== selectedDetailRow) {
-                // Для hotspot - бледная подсветка (зеленый, opacity 0.3)
-                if (svgDoc && !selectedHotspotIds.includes(hotspotId)) {
-                    highlightHotspotHover(hotspotId);
+                    // Если hotspot не выбран, подсвечиваем его бледно (зеленый, opacity 0.3)
+                    if (!selectedHotspotIds.includes(hotspotId.toString())) {
+                        highlightHotspotHover(hotspotId);
+                    }
                 }
-            }
-        });
 
-        row.addEventListener('mouseleave', function () {
-            if (currentActiveTab === 'details' && this !== selectedDetailRow) {
-                // Для hotspot - сбрасываем если не выбран
-                if (svgDoc && !selectedHotspotIds.includes(hotspotId)) {
-                    resetHotspot(hotspotId);
+                function handleHotspotMouseLeave(hotspotId) {
+                    if (currentActiveTab === 'cutting') return;
+
+                    // Если hotspot не выбран, сбрасываем его подсветку
+                    if (!selectedHotspotIds.includes(hotspotId.toString())) {
+                        resetHotspot(hotspotId);
+                    }
                 }
-            }
-        });
 
-        row.addEventListener('click', function (e) {
-            // Если клик был по кнопке PDF, не выделяем строку
-            if (currentActiveTab !== 'details' || e.target.classList.contains('pdf-btn')) {
-                return;
-            }
+                // Найти сборку по hotspot
+                function findAssemblyByHotspot(hotspotId) {
+                    const assemblyRows = document.querySelectorAll('#assembliesTable tbody tr');
+                    for (const row of assemblyRows) {
+                        const hotspotsStr = row.getAttribute('data-hotspots');
+                        const hotspots = hotspotsStr ? hotspotsStr.split(',').map(id => id.trim()) : [];
+                        if (hotspots.includes(hotspotId.toString())) {
+                            return row;
+                        }
+                    }
+                    return null;
+                }
 
-            resetAllHighlights();
+                // Выделить сборку
+                function selectAssembly(assemblyRow) {
+                    resetAllHighlights();
 
-            // Выделяем текущую строку ярко
-            this.classList.add('selected-row');
-            selectedDetailRow = this;
+                    // Выделяем строку сборки ярко
+                    assemblyRow.classList.add('assembly-selected');
+                    selectedAssemblyRow = assemblyRow;
 
-            // Выделяем соответствующий hotspot ярко (синий, opacity 0.7)
-            highlightHotspotSelected(hotspotId);
-            selectedHotspotIds = [hotspotId];
-        });
-    });
+                    // Получаем hotspots сборки
+                    const hotspotsStr = assemblyRow.getAttribute('data-hotspots');
+                    const hotspots = hotspotsStr ? hotspotsStr.split(',').map(id => id.trim()) : [];
+                    selectedHotspotIds = hotspots;
 
-    // Обработка строк таблицы сборок
-    const assemblyRows = document.querySelectorAll('#assembliesTable tbody tr');
-    assemblyRows.forEach(row => {
-        const hotspotsStr = row.getAttribute('data-hotspots');
-        const hotspots = hotspotsStr ? hotspotsStr.split(',').map(id => id.trim()) : [];
+                    // Выделяем hotspots сборки ярко (синий, opacity 0.7)
+                    if (svgDoc) {
+                        hotspots.forEach(id => {
+                            highlightHotspotSelected(id);
+                        });
+                    }
+                }
 
-        row.addEventListener('mouseenter', function () {
-            if (currentActiveTab === 'assemblies' && this !== selectedAssemblyRow) {
-                // Бледная подсветка строки сборки
-                this.classList.add('assembly-highlight');
+                // Обработка строк таблицы деталей
+                const detailRows = document.querySelectorAll('#specificationTable tbody tr');
+                detailRows.forEach(row => {
+                    const hotspotId = row.getAttribute('data-hotspot');
 
-                // Бледная подсветка всех деталей сборки (зеленый, opacity 0.3)
-                if (svgDoc) {
-                    hotspots.forEach(id => {
-                        if (!selectedHotspotIds.includes(id)) {
-                            highlightHotspotHover(id);
+                    row.addEventListener('mouseenter', function () {
+                        if (currentActiveTab === 'details' && this !== selectedDetailRow) {
+                            // Для hotspot - бледная подсветка (зеленый, opacity 0.3)
+                            if (svgDoc && !selectedHotspotIds.includes(hotspotId)) {
+                                highlightHotspotHover(hotspotId);
+                            }
                         }
                     });
-                }
-            }
-        });
 
-        row.addEventListener('mouseleave', function () {
-            if (currentActiveTab === 'assemblies' && this !== selectedAssemblyRow) {
-                // Убираем бледную подсветку строки сборки
-                this.classList.remove('assembly-highlight');
-
-                // Снимаем бледную подсветку с деталей
-                if (svgDoc) {
-                    hotspots.forEach(id => {
-                        if (!selectedHotspotIds.includes(id)) {
-                            resetHotspot(id);
+                    row.addEventListener('mouseleave', function () {
+                        if (currentActiveTab === 'details' && this !== selectedDetailRow) {
+                            // Для hotspot - сбрасываем если не выбран
+                            if (svgDoc && !selectedHotspotIds.includes(hotspotId)) {
+                                resetHotspot(hotspotId);
+                            }
                         }
                     });
-                }
-            }
-        });
 
-        row.addEventListener('click', function (e) {
-            // Если клик был по кнопке PDF, не выделяем сборку
-            if (currentActiveTab !== 'assemblies' || e.target.classList.contains('pdf-btn')) {
-                return;
-            }
+                    row.addEventListener('click', function (e) {
+                        // Если клик был по кнопке PDF, не выделяем строку
+                        if (currentActiveTab !== 'details' || e.target.classList.contains('pdf-btn')) {
+                            return;
+                        }
 
-            selectAssembly(this);
-        });
-    });
+                        resetAllHighlights();
 
-    // Обработка кликов по кнопкам PDF - открытие в новой вкладке
-    document.querySelectorAll('.pdf-btn').forEach(btn => {
-        btn.addEventListener('click', function (e) {
-            e.stopPropagation(); // Чтобы не срабатывал клик по строке
-            const row = this.closest('tr');
-            const pdfUrl = row.getAttribute('data-pdf');
-            
-            if (pdfUrl) {
-                // Заменяем обратные слеши на прямые для совместимости
-                const normalizedUrl = pdfUrl.replace(/\\/g, '/');
-                // Открываем PDF в новой вкладке
-                window.open(normalizedUrl, '_blank');
-            }
-        });
-    });
+                        // Выделяем текущую строку ярко
+                        this.classList.add('selected-row');
+                        selectedDetailRow = this;
 
-    // Сброс всех выделений
-    function resetAllHighlights() {
-        // Сбрасываем выделенные строки
-        document.querySelectorAll('.selected-row').forEach(row => {
-            row.classList.remove('selected-row');
-        });
-        document.querySelectorAll('.assembly-selected').forEach(row => {
-            row.classList.remove('assembly-selected');
-        });
+                        // Выделяем соответствующий hotspot ярко (синий, opacity 0.7)
+                        highlightHotspotSelected(hotspotId);
+                        selectedHotspotIds = [hotspotId];
+                    });
+                });
 
-        selectedDetailRow = null;
-        selectedAssemblyRow = null;
+                // Обработка строк таблицы сборок
+                const assemblyRows = document.querySelectorAll('#assembliesTable tbody tr');
+                assemblyRows.forEach(row => {
+                    const hotspotsStr = row.getAttribute('data-hotspots');
+                    const hotspots = hotspotsStr ? hotspotsStr.split(',').map(id => id.trim()) : [];
 
-        // Сбрасываем выделенные hotspots
-        if (svgDoc) {
-            for (let i = 0; i <= 28; i++) {
-                resetHotspot(i);
-            }
-        }
-        selectedHotspotIds = [];
-    }
-});
+                    row.addEventListener('mouseenter', function () {
+                        if (currentActiveTab === 'assemblies' && this !== selectedAssemblyRow) {
+                            // Бледная подсветка строки сборки
+                            this.classList.add('assembly-highlight');
 
+                            // Бледная подсветка всех деталей сборки (зеленый, opacity 0.3)
+                            if (svgDoc) {
+                                hotspots.forEach(id => {
+                                    if (!selectedHotspotIds.includes(id)) {
+                                        highlightHotspotHover(id);
+                                    }
+                                });
+                            }
+                        }
+                    });
 
+                    row.addEventListener('mouseleave', function () {
+                        if (currentActiveTab === 'assemblies' && this !== selectedAssemblyRow) {
+                            // Убираем бледную подсветку строки сборки
+                            this.classList.remove('assembly-highlight');
 
-      // --- КАЛЬКУЛЯТОР РАСКРОЯ ---
+                            // Снимаем бледную подсветку с деталей
+                            if (svgDoc) {
+                                hotspots.forEach(id => {
+                                    if (!selectedHotspotIds.includes(id)) {
+                                        resetHotspot(id);
+                                    }
+                                });
+                            }
+                        }
+                    });
 
-// ИСХОДНЫЕ ДАННЫЕ ПО МАТЕРИАЛАМ (можно изменять)
-const materialsData = {
-    'Брусок 50х50': [
-        { length: 1550, quantity: 8 },
-        { length: 2100, quantity: 3 }
-    ],
-    'Рейка 25х50': [
-        { length: 920, quantity: 4 },
-        { length: 730, quantity: 6 }
-    ]
-};
+                    row.addEventListener('click', function (e) {
+                        // Если клик был по кнопке PDF, не выделяем сборку
+                        if (currentActiveTab !== 'assemblies' || e.target.classList.contains('pdf-btn')) {
+                            return;
+                        }
 
-// Инициализация калькулятора раскроя при переключении на вкладку
-function initializeCuttingCalculator() {
-    const stockLengthSelect = document.getElementById('stockLengthSelect');
-    const kerfSelect = document.getElementById('kerfSelect');
-    const multiplicityInput = document.getElementById('multiplicity');
-    const cutButton = document.getElementById('cutButton');
-    const resultsContainer = document.getElementById('results-container');
-    const summaryContainer = document.getElementById('summary-container');
-    
-    if (!cutButton) return; // Если элементов нет на странице
-    
-    cutButton.addEventListener('click', () => {
-        const stockLength = parseInt(stockLengthSelect.value);
-        const kerf = parseFloat(kerfSelect.value);
-        const multiplicity = parseInt(multiplicityInput.value);
+                        selectAssembly(this);
+                    });
+                });
 
-        if (isNaN(multiplicity) || multiplicity < 1) {
-            alert('Пожалуйста, введите корректное значение кратности (целое число > 0).');
-            return;
-        }
+                // Обработка кликов по кнопкам PDF - открытие в новой вкладке
+                document.querySelectorAll('.pdf-btn').forEach(btn => {
+                    btn.addEventListener('click', function (e) {
+                        e.stopPropagation(); // Чтобы не срабатывал клик по строке
+                        const row = this.closest('tr');
+                        const pdfUrl = row.getAttribute('data-pdf');
 
-        const allResults = new Map();
+                        if (pdfUrl) {
+                            // Заменяем обратные слеши на прямые для совместимости
+                            const normalizedUrl = pdfUrl.replace(/\\/g, '/');
+                            // Открываем PDF в новой вкладке
+                            window.open(normalizedUrl, '_blank');
+                        }
+                    });
+                });
 
-        // Итерируемся по каждому материалу отдельно
-        for (const [materialName, parts] of Object.entries(materialsData)) {
-            const partsToCut = [];
-            for (const item of parts) {
-                if (item.length > stockLength) {
-                    alert(`Ошибка: Деталь длиной ${item.length}мм из материала "${materialName}" не помещается на заготовку ${stockLength}мм.`);
-                    return;
-                }
-                for (let i = 0; i < item.quantity * multiplicity; i++) {
-                    partsToCut.push({ length: item.length });
-                }
-            }
-            if (partsToCut.length === 0) continue;
-            
-            // Алгоритм FFD для текущего материала
-partsToCut.sort((a, b) => b.length - a.length);
-const cuttingPlan = [];
-for (const part of partsToCut) {
-    let placed = false;
-    for (const stock of cuttingPlan) {
-        // Правильный расчет использованной длины с резами для этой заготовки
-        let usedLength = 0;
-        if (stock.length > 0) {
-            // Сумма длин всех деталей
-            usedLength = stock.reduce((sum, p) => sum + p.length, 0);
-            // Добавляем резы между деталями и после последней (n резов для n деталей)
-            usedLength += stock.length * kerf; // Изменено с (stock.length - 1) на stock.length
-        }
-        
-        // Проверяем, поместится ли деталь с учетом реза
-        // Для новой детали нужно добавить рез после нее
-        const requiredLength = part.length + kerf; // Добавляем рез после детали
-        if (stockLength - usedLength >= requiredLength) {
-            stock.push(part);
-            placed = true;
-            break;
-        }
-    }
-    if (!placed) {
-        cuttingPlan.push([part]);
-    }
-}
+                // Сброс всех выделений
+                function resetAllHighlights() {
+                    // Сбрасываем выделенные строки
+                    document.querySelectorAll('.selected-row').forEach(row => {
+                        row.classList.remove('selected-row');
+                    });
+                    document.querySelectorAll('.assembly-selected').forEach(row => {
+                        row.classList.remove('assembly-selected');
+                    });
 
-            // Группировка одинаковых раскроев
-            const groupedPlan = new Map();
-            for (const stock of cuttingPlan) {
-                const key = stock.map(p => p.length).sort((a, b) => a - b).join(',');
-                if (groupedPlan.has(key)) {
-                    groupedPlan.get(key).count++;
-                } else {
-                    groupedPlan.set(key, { parts: stock, count: 1 });
-                }
-            }
-            allResults.set(materialName, { plan: groupedPlan });
-        }
+                    selectedDetailRow = null;
+                    selectedAssemblyRow = null;
 
-        visualizeAllResults(allResults, stockLength, kerf, multiplicity);
-    });
-
-                        function visualizeAllResults(allResults, stockLength, kerf, multiplicity) {
-    resultsContainer.innerHTML = '';
-    summaryContainer.style.display = 'none';
-
-    if (allResults.size === 0) {
-        resultsContainer.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 20px;">Нет деталей для раскроя.</p>';
-        return;
-    }
-
-    let grandTotalWaste = 0;
-    let grandTotalStocks = 0;
-
-    for (const [materialName, data] of allResults.entries()) {
-        const materialSection = document.createElement('section');
-        materialSection.className = 'material-section';
-
-        const materialTitle = document.createElement('h2');
-        materialTitle.textContent = `Материал: ${materialName}`;
-        materialSection.appendChild(materialTitle);
-
-        let materialTotalWaste = 0;
-        let materialTotalStocks = 0;
-
-        data.plan.forEach((groupData) => {
-            const { parts, count } = groupData;
-            materialTotalStocks += count;
-
-            const stockElement = document.createElement('div');
-            stockElement.className = 'cutting-plan-item';
-
-            const title = document.createElement('h3');
-            title.textContent = `${materialName} L=${stockLength} мм (${count} шт.)`;
-            stockElement.appendChild(title);
-
-            const stockWrapper = document.createElement('div');
-            stockWrapper.className = 'stock-wrapper';
-            const stockVisual = document.createElement('div');
-            stockVisual.className = 'stock';
-
-            // Группируем одинаковые детали для отображения
-            const groupedParts = [];
-            let currentGroup = null;
-            for (const part of parts) {
-                if (currentGroup && currentGroup.length === part.length) {
-                    currentGroup.count++;
-                } else {
-                    if (currentGroup) groupedParts.push(currentGroup);
-                    currentGroup = { length: part.length, count: 1 };
-                }
-            }
-            if (currentGroup) groupedParts.push(currentGroup);
-
-            // ПРАВИЛЬНЫЙ расчет использованной длины с учетом резов
-            // Для N деталей нужно N резов (каждая деталь отрезается)
-            let usedLengthWithKerf = 0;
-            let totalNumberOfParts = 0;
-            
-            // Считаем общую длину деталей и количество деталей
-            groupedParts.forEach(group => {
-                usedLengthWithKerf += group.length * group.count;
-                totalNumberOfParts += group.count;
-            });
-            
-            // Добавляем резы: для каждой детали нужен рез
-            usedLengthWithKerf += totalNumberOfParts * kerf;
-
-            const numberOfGroups = groupedParts.length;
-
-            groupedParts.forEach((group, groupIndex) => {
-                const groupTotalLength = group.length * group.count;
-                // Резы для каждой детали в группе
-                const groupCutsLength = group.count * kerf;
-                const groupWidth = (groupTotalLength + groupCutsLength) / stockLength * 100;
-
-                const partElement = document.createElement('div');
-                partElement.className = 'part';
-                partElement.style.width = `${groupWidth}%`;
-                partElement.textContent = group.count > 1 ? `${group.length}x${group.count}` : `${group.length}`;
-                stockVisual.appendChild(partElement);
-
-                // Добавляем визуализацию реза между группами (кроме последней группы)
-                if (groupIndex < numberOfGroups - 1) {
-                    const cutElement = document.createElement('div');
-                    cutElement.className = 'cut-visual';
-                    cutElement.style.width = `${(kerf / stockLength) * 100}%`;
-                    stockVisual.appendChild(cutElement);
+                    // Сбрасываем выделенные hotspots
+                    if (svgDoc) {
+                        for (let i = 0; i <= 28; i++) {
+                            resetHotspot(i);
+                        }
+                    }
+                    selectedHotspotIds = [];
                 }
             });
 
-            // Остаток - это просто разница между длиной заготовки и использованной длиной
-            const waste = stockLength - usedLengthWithKerf;
-            materialTotalWaste += waste * count;
 
-            if (waste > 0) {
-                const wasteElement = document.createElement('div');
-                wasteElement.className = 'waste';
-                wasteElement.style.width = `${(waste / stockLength) * 100}%`;
-                wasteElement.textContent = waste > 10 ? `${Math.round(waste)}` : '';
-                stockVisual.appendChild(wasteElement);
 
-                const wasteLabel = document.createElement('p');
-                wasteLabel.className = 'waste-label';
-                wasteLabel.textContent = `Остаток - ${Math.round(waste)} мм`;
-                stockWrapper.appendChild(wasteLabel);
-            }
-            
-            stockWrapper.appendChild(stockVisual);
-            stockElement.appendChild(stockWrapper);
-            materialSection.appendChild(stockElement);
-        });
+            // --- КАЛЬКУЛЯТОР РАСКРОЯ ---
 
-        const materialSummary = document.createElement('div');
-        materialSummary.className = 'summary';
-        materialSummary.innerHTML = `
-            <h4>Сводка по "${materialName}"</h4>
+            // ИСХОДНЫЕ ДАННЫЕ ПО МАТЕРИАЛАМ (можно изменять)
+            const materialsData = {
+                'Труба 60х40х2': [
+                    { length: 2403, quantity: 2 },
+                    { length: 1044, quantity: 2 },
+                    { length: 400, quantity: 7 },
+                    { length: 3182, quantity: 2 },
+                    { length: 1945, quantity: 1 },
+                    { length: 1925, quantity: 1 },
+                    { length: 1920, quantity: 1 },
+                    { length: 1810, quantity: 1 },
+                    { length: 1795, quantity: 1 }
+                ],
+                'Труба 48х3': [
+                    { length: 200, quantity: 1 },
+                    { length: 140, quantity: 4 }
+                ]
+            };
+
+            // Инициализация калькулятора раскроя при переключении на вкладку
+            function initializeCuttingCalculator() {
+                const stockLengthSelect = document.getElementById('stockLengthSelect');
+                const kerfSelect = document.getElementById('kerfSelect');
+                const multiplicityInput = document.getElementById('multiplicity');
+                const cutButton = document.getElementById('cutButton');
+                const resultsContainer = document.getElementById('results-container');
+                const summaryContainer = document.getElementById('summary-container');
+
+                if (!cutButton) return; // Если элементов нет на странице
+
+                cutButton.addEventListener('click', () => {
+                    const stockLength = parseInt(stockLengthSelect.value);
+                    const kerf = parseFloat(kerfSelect.value);
+                    const multiplicity = parseInt(multiplicityInput.value);
+
+                    if (isNaN(multiplicity) || multiplicity < 1) {
+                        alert('Пожалуйста, введите корректное значение кратности (целое число > 0).');
+                        return;
+                    }
+
+                    const allResults = new Map();
+
+                    // Итерируемся по каждому материалу отдельно
+                    for (const [materialName, parts] of Object.entries(materialsData)) {
+                        const partsToCut = [];
+                        for (const item of parts) {
+                            if (item.length > stockLength) {
+                                alert(`Ошибка: Деталь длиной ${item.length}мм из материала "${materialName}" не помещается на заготовку ${stockLength}мм.`);
+                                return;
+                            }
+                            for (let i = 0; i < item.quantity * multiplicity; i++) {
+                                partsToCut.push({ length: item.length });
+                            }
+                        }
+                        if (partsToCut.length === 0) continue;
+
+                        // Алгоритм FFD для текущего материала
+                        partsToCut.sort((a, b) => b.length - a.length);
+                        const cuttingPlan = [];
+                        for (const part of partsToCut) {
+                            let placed = false;
+                            for (const stock of cuttingPlan) {
+                                // Правильный расчет использованной длины с резами для этой заготовки
+                                let usedLength = 0;
+                                if (stock.length > 0) {
+                                    // Сумма длин всех деталей
+                                    usedLength = stock.reduce((sum, p) => sum + p.length, 0);
+                                    // Добавляем резы между деталями и после последней (n резов для n деталей)
+                                    usedLength += stock.length * kerf; // Изменено с (stock.length - 1) на stock.length
+                                }
+
+                                // Проверяем, поместится ли деталь с учетом реза
+                                // Для новой детали нужно добавить рез после нее
+                                const requiredLength = part.length + kerf; // Добавляем рез после детали
+                                if (stockLength - usedLength >= requiredLength) {
+                                    stock.push(part);
+                                    placed = true;
+                                    break;
+                                }
+                            }
+                            if (!placed) {
+                                cuttingPlan.push([part]);
+                            }
+                        }
+
+                        // Группировка одинаковых раскроев
+                        const groupedPlan = new Map();
+                        for (const stock of cuttingPlan) {
+                            const key = stock.map(p => p.length).sort((a, b) => a - b).join(',');
+                            if (groupedPlan.has(key)) {
+                                groupedPlan.get(key).count++;
+                            } else {
+                                groupedPlan.set(key, { parts: stock, count: 1 });
+                            }
+                        }
+                        allResults.set(materialName, { plan: groupedPlan });
+                    }
+
+                    visualizeAllResults(allResults, stockLength, kerf, multiplicity);
+                });
+
+                function visualizeAllResults(allResults, stockLength, kerf, multiplicity) {
+                    resultsContainer.innerHTML = '';
+                    summaryContainer.style.display = 'none';
+
+                    if (allResults.size === 0) {
+                        resultsContainer.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 20px;">Нет деталей для раскроя.</p>';
+                        return;
+                    }
+
+                    let grandTotalWaste = 0;
+                    let grandTotalStocks = 0;
+
+                    for (const [materialName, data] of allResults.entries()) {
+                        const materialSection = document.createElement('section');
+                        materialSection.className = 'material-section';
+
+                        const materialTitle = document.createElement('h2');
+                        materialTitle.textContent = `Материал: ${materialName}`;
+                        materialSection.appendChild(materialTitle);
+
+                        let materialTotalWaste = 0;
+                        let materialTotalStocks = 0;
+
+                        data.plan.forEach((groupData) => {
+                            const { parts, count } = groupData;
+                            materialTotalStocks += count;
+
+                            const stockElement = document.createElement('div');
+                            stockElement.className = 'cutting-plan-item';
+
+                            const title = document.createElement('h3');
+                            title.textContent = `${materialName} L=${stockLength} мм (${count} шт.)`;
+                            stockElement.appendChild(title);
+
+                            const stockWrapper = document.createElement('div');
+                            stockWrapper.className = 'stock-wrapper';
+                            const stockVisual = document.createElement('div');
+                            stockVisual.className = 'stock';
+
+                            // Группируем одинаковые детали для отображения
+                            const groupedParts = [];
+                            let currentGroup = null;
+                            for (const part of parts) {
+                                if (currentGroup && currentGroup.length === part.length) {
+                                    currentGroup.count++;
+                                } else {
+                                    if (currentGroup) groupedParts.push(currentGroup);
+                                    currentGroup = { length: part.length, count: 1 };
+                                }
+                            }
+                            if (currentGroup) groupedParts.push(currentGroup);
+
+                            // ПРАВИЛЬНЫЙ расчет использованной длины с учетом резов
+                            // Для N деталей нужно N резов (каждая деталь отрезается)
+                            let usedLengthWithKerf = 0;
+                            let totalNumberOfParts = 0;
+
+                            // Считаем общую длину деталей и количество деталей
+                            groupedParts.forEach(group => {
+                                usedLengthWithKerf += group.length * group.count;
+                                totalNumberOfParts += group.count;
+                            });
+
+                            // Добавляем резы: для каждой детали нужен рез
+                            usedLengthWithKerf += totalNumberOfParts * kerf;
+
+                            const numberOfGroups = groupedParts.length;
+
+                            groupedParts.forEach((group, groupIndex) => {
+                                const groupTotalLength = group.length * group.count;
+                                // Резы для каждой детали в группе
+                                const groupCutsLength = group.count * kerf;
+                                const groupWidth = (groupTotalLength + groupCutsLength) / stockLength * 100;
+
+                                const partElement = document.createElement('div');
+                                partElement.className = 'part';
+                                partElement.style.width = `${groupWidth}%`;
+                                partElement.textContent = group.count > 1 ? `${group.length}x${group.count}` : `${group.length}`;
+                                stockVisual.appendChild(partElement);
+
+                                // Добавляем визуализацию реза между группами (кроме последней группы)
+                                if (groupIndex < numberOfGroups - 1) {
+                                    const cutElement = document.createElement('div');
+                                    cutElement.className = 'cut-visual';
+                                    cutElement.style.width = `${(kerf / stockLength) * 100}%`;
+                                    stockVisual.appendChild(cutElement);
+                                }
+                            });
+
+                            // Остаток - это просто разница между длиной заготовки и использованной длиной
+                            const waste = stockLength - usedLengthWithKerf;
+                            materialTotalWaste += waste * count;
+
+                            if (waste > 0) {
+                                const wasteElement = document.createElement('div');
+                                wasteElement.className = 'waste';
+                                wasteElement.style.width = `${(waste / stockLength) * 100}%`;
+                                wasteElement.textContent = waste > 10 ? `${Math.round(waste)}` : '';
+                                stockVisual.appendChild(wasteElement);
+                            }
+
+                            stockWrapper.appendChild(stockVisual);
+                            stockElement.appendChild(stockWrapper);
+                            materialSection.appendChild(stockElement);
+
+                            const wasteLabel = document.createElement('p');
+                            wasteLabel.className = 'waste-label';
+                            wasteLabel.textContent = `Остаток - ${Math.round(waste)} мм`;
+                            stockWrapper.appendChild(wasteLabel);
+                        });
+
+                        const materialSummary = document.createElement('div');
+                        materialSummary.className = 'summary';
+                        materialSummary.innerHTML = `
+            <h4>${materialName}</h4>
             <p><strong>Использовано заготовок:</strong> ${materialTotalStocks} шт.</p>
             <p><strong>Общий отход:</strong> ${Math.round(materialTotalWaste)} мм</p>
-            <p><em>Примечание: Учитываются резы после каждой детали</em></p>
         `;
-        materialSection.appendChild(materialSummary);
-        resultsContainer.appendChild(materialSection);
+                        materialSection.appendChild(materialSummary);
+                        resultsContainer.appendChild(materialSection);
 
-        grandTotalWaste += materialTotalWaste;
-        grandTotalStocks += materialTotalStocks;
-            }
-                                
-    
+                        grandTotalWaste += materialTotalWaste;
+                        grandTotalStocks += materialTotalStocks;
+                    }
+
+
                     // Прокручиваем к результатам
-    resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });            
-            }                   
-    }
+                    resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
 
-// Инициализируем калькулятор при загрузке страницы
-initializeCuttingCalculator();      
+            // Инициализируем калькулятор при загрузке страницы
+            initializeCuttingCalculator();      
         </script>
 </body>
 
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
