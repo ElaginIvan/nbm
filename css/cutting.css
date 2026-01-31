@@ -1,0 +1,314 @@
+/* Стили для вкладки раскроя */
+.cutting-full {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.cutting-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    flex: 1;
+}
+
+.cutting-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+}
+
+.cutting-section h4 {
+    margin-top: 0;
+    color: #495057;
+    border-bottom: 2px solid #00ff00;
+    padding-bottom: 8px;
+}
+
+.cutting-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cutting-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.cutting-list li:last-child {
+    border-bottom: none;
+}
+
+
+
+
+
+/* Стили для вкладки раскроя */
+.cutting-tab {
+    overflow-y: auto;
+}
+
+.cutting-full {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cutting-controls {
+    background: var(--card-background);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.cutting-controls h2 {
+    margin-top: 0;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 0px;
+    font-size: 1.5rem;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.control-group label {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.control-group input,
+.control-group select {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+}
+
+.control-group input:focus,
+.control-group select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, .25);
+}
+
+.cut-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+    display: block;
+}
+
+.cut-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cut-btn:active {
+    transform: translateY(0);
+}
+
+.cutting-results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Материал секция */
+.material-section {
+    background: var(--card-background);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.material-section h2 {
+    margin-top: 0;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+/* Раскрой план */
+.cutting-plan-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--card-background);
+}
+
+.cutting-plan-item h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.material-summary h4, p {
+    margin-bottom: 4px;
+}
+
+/* Визуализация заготовки */
+.stock-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stock {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    border: 2px solid #343a40;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #e9ecef;
+}
+
+.part {
+    height: 100%;
+    background-color: #28a745;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    transition: all 0.2s;
+}
+
+.part:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+.cut-visual {
+    height: 100%;
+    background-color: #343a40;
+    min-width: 2px;
+}
+
+.waste {
+    height: 100%;
+    background-color: #dc3545;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.waste-label {
+    font-size: 12px;
+    color: #6c757d;
+    text-align: right;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-style: italic;
+}
+
+/* Сводка */
+.summary {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.summary h3,
+.summary h4 {
+    margin-top: 0;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+}
+
+.summary p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+.summary strong {
+    color: var(--text-secondary);
+}
+
+/* Адаптивность для вкладки раскроя */
+@media (max-width: 768px) {
+    .cutting-full {
+        padding: 10px;
+    }
+
+    .controls-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .cutting-controls {
+        padding: 10px;
+    }
+
+    .cut-btn {
+        width: 100%;
+        max-width: none;
+    }
+
+    .material-section {
+        padding: 10px;
+    }
+
+    .stock {
+        height: 30px;
+    }
+
+    .part,
+    .waste {
+        font-size: 10px;
+    }
+}
+
+/* Предотвращение подъема страницы на мобильных */
+@media (max-width: 768px) {
+    .cutting-tab {
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+
+    .cutting-results {
+        overflow-y: auto;
+    }
+}
