@@ -14,7 +14,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: var(--spacing-xl);
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
     flex: 1;
 }
 
@@ -71,7 +71,7 @@
 
 .model-description {
     color: var(--text-secondary);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
     flex: 1;
     font-size: 0.95rem;
     line-height: 1.5;
@@ -97,4 +97,15 @@
 .open-model:hover {
     background: #3578d4;
     transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .open-model{
+        display: none;
+    }
+
+    .model-info{
+        padding-top: 0;
+        padding-bottom: 0;
+    }
 }
