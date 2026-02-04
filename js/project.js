@@ -395,145 +395,145 @@ window.Specification = {
         return finalStructure;
     },
 
-    /**
-     * Находит все меши в объекте (рекурсивно)
-     * @param {THREE.Object3D} object - Объект Three.js
-     * @returns {Array<THREE.Mesh>} Массив всех мешей
-     */
-    collectAllMeshes(object) {
-        const meshes = [];
-
-        object.traverse((child) => {
-            if (child.isMesh) {
-                meshes.push(child);
-            }
-        });
-
-        return meshes;
-    },
-
-    /**
-     * Подсвечивает или скрывает детали по имени
-     * @param {string} partName - Имя детали
-     * @param {boolean} hideOthers - Скрывать ли остальные детали (true) или только подсвечивать (false)
-     */
-    highlightParts(partName, hideOthers = true) {
-        // Сохраняем выбранную деталь
-        this.lastSelectedPart = partName;
-        // Если нет структуры или модели, ничего не делаем
-        if (!this.structure || !window.model) {
-            console.warn('Model structure not loaded');
-            return;
+/**
+ * Находит все меши в объекте (рекурсивно)
+ * @param {THREE.Object3D} object - Объект Three.js
+ * @returns {Array<THREE.Mesh>} Массив всех мешей
+ */
+collectAllMeshes(object) {
+    const meshes = [];
+    
+    object.traverse((child) => {
+        if (child.isMesh) {
+            meshes.push(child);
         }
+    });
+    
+    return meshes;
+},
 
-        // Сначала показываем и сбрасываем все
-        this.structure.forEach(item => {
-            if (item.threeObjects) {
-                item.threeObjects.forEach(obj => {
-                    obj.traverse((child) => {
-                        if (child.isMesh) {
-                            // Восстанавливаем оригинальный материал если есть
-                            if (child.userData.originalMaterial) {
-                                child.material = child.userData.originalMaterial;
-                            }
+/**
+ * Подсвечивает или скрывает детали по имени
+ * @param {string} partName - Имя детали
+ * @param {boolean} hideOthers - Скрывать ли остальные детали (true) или только подсвечивать (false)
+ */
+highlightParts(partName, hideOthers = true) {
+     // Сохраняем выбранную деталь
+     this.lastSelectedPart = partName;
+    // Если нет структуры или модели, ничего не делаем
+    if (!this.structure || !window.model) {
+        console.warn('Model structure not loaded');
+        return;
+    }
 
-                            // Убираем подсветку
-                            if (child.material.emissive) {
-                                child.material.emissive.setHex(0x000000);
-                            }
-
-                            // Показываем все
-                            child.visible = true;
+    // Сначала показываем и сбрасываем все
+    this.structure.forEach(item => {
+        if (item.threeObjects) {
+            item.threeObjects.forEach(obj => {
+                obj.traverse((child) => {
+                    if (child.isMesh) {
+                        // Восстанавливаем оригинальный материал если есть
+                        if (child.userData.originalMaterial) {
+                            child.material = child.userData.originalMaterial;
                         }
-                    });
-                });
-            }
-        });
-
-        // Если передано пустое имя, просто показываем все
-        if (!partName) {
-            return;
-        }
-
-        // Ищем все группы с таким именем
-        const groupsToShow = this.structure.filter(item =>
-            item.name.toLowerCase() === partName.toLowerCase()
-        );
-
-        if (groupsToShow.length === 0) {
-            console.warn(`Part "${partName}" not found in structure`);
-            return;
-        }
-
-        // Собираем все меши из выбранных групп
-        const meshesToShow = new Set();
-        groupsToShow.forEach(group => {
-            if (group.threeObjects) {
-                group.threeObjects.forEach(obj => {
-                    obj.traverse((child) => {
-                        if (child.isMesh) {
-                            meshesToShow.add(child);
+                        
+                        // Убираем подсветку
+                        if (child.material.emissive) {
+                            child.material.emissive.setHex(0x000000);
                         }
-                    });
+                        
+                        // Показываем все
+                        child.visible = true;
+                    }
                 });
-            }
-        });
-
-        if (hideOthers) {
-            // Скрываем все меши, которые не в выбранных группах
-            this.structure.forEach(item => {
-                if (!groupsToShow.includes(item) && item.threeObjects) {
-                    item.threeObjects.forEach(obj => {
-                        obj.traverse((child) => {
-                            if (child.isMesh && !meshesToShow.has(child)) {
-                                child.visible = false;
-                            }
-                        });
-                    });
-                }
             });
         }
+    });
 
-        console.log(`Showing ${meshesToShow.size} meshes for part "${partName}"`);
-    },
+    // Если передано пустое имя, просто показываем все
+    if (!partName) {
+        return;
+    }
 
-    /**
-     * Показывает все детали
-     */
-    showAllParts() {
-        // Сбрасываем сохраненное выделение
-        this.lastSelectedPart = null;
+    // Ищем все группы с таким именем
+    const groupsToShow = this.structure.filter(item => 
+        item.name.toLowerCase() === partName.toLowerCase()
+    );
 
-        if (!this.structure) return;
+    if (groupsToShow.length === 0) {
+        console.warn(`Part "${partName}" not found in structure`);
+        return;
+    }
 
+    // Собираем все меши из выбранных групп
+    const meshesToShow = new Set();
+    groupsToShow.forEach(group => {
+        if (group.threeObjects) {
+            group.threeObjects.forEach(obj => {
+                obj.traverse((child) => {
+                    if (child.isMesh) {
+                        meshesToShow.add(child);
+                    }
+                });
+            });
+        }
+    });
+
+    if (hideOthers) {
+        // Скрываем все меши, которые не в выбранных группах
         this.structure.forEach(item => {
-            if (item.threeObjects) {
+            if (!groupsToShow.includes(item) && item.threeObjects) {
                 item.threeObjects.forEach(obj => {
                     obj.traverse((child) => {
-                        if (child.isMesh) {
-                            // Восстанавливаем оригинальный материал
-                            if (child.userData.originalMaterial) {
-                                child.material = child.userData.originalMaterial;
-                            }
-
-                            // Убираем подсветку
-                            if (child.material.emissive) {
-                                child.material.emissive.setHex(0x000000);
-                            }
-
-                            // Показываем все
-                            child.visible = true;
+                        if (child.isMesh && !meshesToShow.has(child)) {
+                            child.visible = false;
                         }
                     });
                 });
             }
         });
+    }
 
-        // Обновляем контролы камеры
-        if (window.controls) {
-            window.controls.update();
+    console.log(`Showing ${meshesToShow.size} meshes for part "${partName}"`);
+},
+
+/**
+ * Показывает все детали
+ */
+showAllParts() {
+    // Сбрасываем сохраненное выделение
+    this.lastSelectedPart = null;
+    
+    if (!this.structure) return;
+    
+    this.structure.forEach(item => {
+        if (item.threeObjects) {
+            item.threeObjects.forEach(obj => {
+                obj.traverse((child) => {
+                    if (child.isMesh) {
+                        // Восстанавливаем оригинальный материал
+                        if (child.userData.originalMaterial) {
+                            child.material = child.userData.originalMaterial;
+                        }
+                        
+                        // Убираем подсветку
+                        if (child.material.emissive) {
+                            child.material.emissive.setHex(0x000000);
+                        }
+                        
+                        // Показываем все
+                        child.visible = true;
+                    }
+                });
+            });
         }
-    },
+    });
+    
+    // Обновляем контролы камеры
+    if (window.controls) {
+        window.controls.update();
+    }
+},
 
     /**
      * Рендерит таблицу спецификации
@@ -541,7 +541,7 @@ window.Specification = {
      */
     renderSpecificationTable(structure) {
         const tbody = document.getElementById('specification-body');
-
+    
         if (!structure || structure.length === 0) {
             tbody.innerHTML = `
             <tr>
@@ -555,18 +555,18 @@ window.Specification = {
         `;
             return;
         }
-
+    
         let html = '';
         structure.forEach((item, index) => {
             const indent = item.level * 15;
-
+    
             // Получаем данные из CSV (только наименование и описание)
             const csvData = item.csvData;
             const name = csvData ? csvData['Наименование'] : '—';
             const quantity = item.instanceCount || 1;
-
+    
             const hasData = csvData ? 'has-data' : 'no-data';
-
+    
             html += `
             <tr class="part-row ${hasData}" data-part-name="${item.name}">
                 <td>
@@ -580,16 +580,16 @@ window.Specification = {
             </tr>
         `;
         });
-
+    
         tbody.innerHTML = html;
-
+    
         const partRows = document.querySelectorAll('.part-row');
         let lastSelectedRow = null;
-
+    
         partRows.forEach(row => {
             row.addEventListener('click', () => {
                 const partName = row.getAttribute('data-part-name');
-
+    
                 // Если кликаем на уже выделенную строку - отменяем выделение
                 if (row.classList.contains('active')) {
                     row.classList.remove('active');
@@ -599,17 +599,17 @@ window.Specification = {
                     // Снимаем выделение со всех строк и выделяем текущую
                     partRows.forEach(r => r.classList.remove('active'));
                     row.classList.add('active');
-
+                    
                     // Показываем только выбранную деталь, остальные скрываем
                     this.highlightParts(partName, true);
                     lastSelectedRow = row;
                 }
-
+    
                 // Если включен 2D режим, загружаем чертеж
                 if (window.DrawingViewer && window.DrawingViewer.getCurrentMode() === '2D') {
                     window.DrawingViewer.loadDrawing(partName);
                 }
-
+    
                 // Если мы находимся на вкладке раскроя, переключаемся на спецификацию при клике
                 // Теперь доступ к состоянию через resizeHandler
                 if (window.resizeHandler && window.resizeHandler.currentView === 'cutting') {
@@ -690,7 +690,6 @@ export const ProjectPage = {
             this.showErrorMessage(error.message);
         }
     },
-    
 
     loadModelScript() {
         const oldScript = document.querySelector('script[src="js/model.js"]');
@@ -713,35 +712,6 @@ export const ProjectPage = {
 
         document.body.appendChild(script);
         
-    },
-
-
-        // 2. Ждем, пока resize-handler восстановит размеры
-        waitForResizeHandler().then(() => {
-            // 3. Даем браузеру время применить CSS
-            setTimeout(() => {
-                // 4. ТОЛЬКО ПОСЛЕ этого загружаем Three.js
-                const script = document.createElement('script');
-                script.src = 'js/model.js';
-
-                script.onload = function () {
-                    console.log('Model script loaded after resize handler');
-                    // 5. Сразу обновляем размеры
-                    requestAnimationFrame(() => {
-                        if (window.onWindowResize) {
-                            window.onWindowResize();
-                        }
-                    });
-                };
-
-                script.onerror = function () {
-                    console.error('Failed to load model script');
-                    ProjectPage.showErrorMessage('Failed to load 3D viewer');
-                };
-
-                document.body.appendChild(script);
-            }, 50);
-        });
     },
 
     showErrorMessage(message) {
@@ -779,5 +749,4 @@ if (document.readyState === 'loading') {
 } else {
     ProjectPage.init();
 }
-
 
