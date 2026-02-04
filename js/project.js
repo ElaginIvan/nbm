@@ -690,8 +690,7 @@ export const ProjectPage = {
             this.showErrorMessage(error.message);
         }
     },
-
-    // project.js - замените функцию loadModelScript()
+    
 
     loadModelScript() {
         const oldScript = document.querySelector('script[src="js/model.js"]');
@@ -699,21 +698,23 @@ export const ProjectPage = {
             oldScript.remove();
         }
 
-        // 1. СНАЧАЛА дожидаемся восстановления размеров
-        const waitForResizeHandler = () => {
-            return new Promise(resolve => {
-                if (window.resizeHandler) {
-                    resolve();
-                } else {
-                    const check = setInterval(() => {
-                        if (window.resizeHandler) {
-                            clearInterval(check);
-                            resolve();
-                        }
-                    }, 50);
-                }
-            });
+        const script = document.createElement('script');
+        script.src = 'js/model.js';
+
+        script.onload = function () {
+            console.log('Model script loaded successfully');
+            setTimeout(() => { if (window.onWindowResize) window.onWindowResize(); }, 250);
         };
+
+        script.onerror = function () {
+            console.error('Failed to load model script');
+            ProjectPage.showErrorMessage('Failed to load 3D viewer');
+        };
+
+        document.body.appendChild(script);
+        
+    },
+
 
         // 2. Ждем, пока resize-handler восстановит размеры
         waitForResizeHandler().then(() => {
@@ -778,4 +779,5 @@ if (document.readyState === 'loading') {
 } else {
     ProjectPage.init();
 }
+
 
