@@ -453,7 +453,9 @@ async function initializeCuttingCalculator() {
     // Показываем начальное состояние
     resultsContainer.innerHTML = `
         <div class="empty-state">
-            <i class="fas fa-cut"></i>
+            <svg>
+                <use xlink:href="assets/icons/sprite.svg#cut">
+            </use></svg>
             <h3>Готов к работе</h3>
             <p>Настройте параметры и нажмите "Раскроить"</p>
         </div>
@@ -639,21 +641,6 @@ function visualizeAllResults(allResults, stockLength, kerf, multiplicity) {
     
     // Прокручиваем к результатам
     resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-// После генерации результатов раскроя можно добавить кнопку для возврата к спецификации
-function addBackToSpecButton() {
-    const resultsContainer = document.getElementById('results-container');
-    if (!resultsContainer || !window.resizeHandler) return;
-    
-    const backButton = document.createElement('button');
-    backButton.className = 'back-to-spec-btn';
-    backButton.innerHTML = '<i class="fas fa-list-alt"></i> Вернуться к спецификации';
-    backButton.onclick = () => {
-        window.resizeHandler.setView('specification');
-    };
-    
-    resultsContainer.appendChild(backButton);
 }
 
 /**

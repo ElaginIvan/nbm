@@ -20,21 +20,44 @@ export const DrawingLoader = {
 
         if (drawings.length === 0) {
             this.showNoDrawingFound(cleanDesignation);
+            
+            // Очищаем глобальное состояние
+            window.currentDrawings = null;
+            this.currentDrawings = null;
+            
+            // Удаляем элементы управления
+            if (window.UIManager) {
+                window.UIManager.removeMultiDrawingControls();
+            }
+            
             return false;
         }
 
         console.log(`✅ Найдено чертежей: ${drawings.length}`, drawings);
 
+        // Сохраняем состояние в обоих местах для совместимости
         this.currentDrawings = {
             files: drawings,
             currentIndex: 0,
             designation: cleanDesignation
         };
+        
+        window.currentDrawings = this.currentDrawings;
 
         if (drawings.length === 1) {
             this.loadSingleDrawing(drawings[0]);
+            
+            // Для одного чертежа удаляем навигационные кнопки
+            if (window.UIManager) {
+                window.UIManager.removeMultiDrawingControls();
+            }
         } else {
             this.loadMultipleDrawings(drawings, cleanDesignation);
+            
+            // Для нескольких чертежей создаем навигацию
+            if (window.UIManager) {
+                window.UIManager.createMultiDrawingControls(this);
+            }
         }
 
         return true;
@@ -64,7 +87,8 @@ export const DrawingLoader = {
             // Базовый чертеж не найден
         }
 
-        // Чертежи с листами
+        // Чертежи с листами (с пробелом)
+        sheetNumber = 1;
         while (sheetNumber <= maxSheets) {
             const pathWithSheet = `models/${projectId}/png/${designation} Лист-${sheetNumber}.png`;
 
@@ -154,11 +178,15 @@ export const DrawingLoader = {
      * Загружает несколько чертежей
      */
     loadMultipleDrawings(drawings, designation) {
+        // Сохраняем в глобальном объекте
         window.currentDrawings = {
             files: drawings,
             currentIndex: 0,
             designation: designation
         };
+        
+        // Синхронизируем с локальным состоянием
+        this.currentDrawings = window.currentDrawings;
 
         this.loadDrawingFromList(0);
     },
@@ -183,6 +211,11 @@ export const DrawingLoader = {
         imageElement.style.display = 'none';
 
         window.currentDrawings.currentIndex = index;
+        
+        // Синхронизируем с локальным состоянием
+        if (this.currentDrawings) {
+            this.currentDrawings.currentIndex = index;
+        }
 
         const img = new Image();
         img.onload = () => {
@@ -190,6 +223,11 @@ export const DrawingLoader = {
             imageElement.style.display = 'block';
             placeholder.style.display = 'none';
             console.log(`✅ Лист ${index + 1} загружен:`, drawing.name);
+            
+            // Обновляем индикатор после загрузки
+            if (window.UIManager) {
+                window.UIManager.updateDrawingIndicator();
+            }
         };
 
         img.onerror = () => {

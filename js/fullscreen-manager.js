@@ -85,6 +85,11 @@ export const FullscreenManager = {
     exitFullscreen() {
         if (!this.isFullscreen) return;
 
+        // Сохраняем ссылку на активный контейнер до изменений
+        const activeContainer = this.modelContainer.classList.contains('active')
+            ? this.modelContainer
+            : this.drawingContainer;
+
         // Показываем панель с информацией
         this.infoPanel.style.display = '';
 
@@ -111,9 +116,43 @@ export const FullscreenManager = {
         // Обновляем кнопку
         this.updateButtonState();
 
-        // Обновляем Three.js если нужно
-        if (window.onWindowResize) {
-            setTimeout(() => window.onWindowResize(), 50);
+        // ПЛАВНОЕ РЕШЕНИЕ: используем transitionend событие
+        // Добавляем временный обработчик для плавного изменения размера
+        if (activeContainer === this.modelContainer) {
+            // Сначала добавляем transition для контейнера
+            activeContainer.style.transition = 'height 0.3s ease';
+            
+            // Ждем окончания анимации изменения размера
+            const onTransitionEnd = () => {
+                activeContainer.removeEventListener('transitionend', onTransitionEnd);
+                activeContainer.style.transition = '';
+                
+                // Вызываем onWindowResize после окончания анимации
+                if (window.onWindowResize) {
+                    window.onWindowResize();
+                    console.log('Window resized after smooth transition');
+                }
+            };
+            
+            activeContainer.addEventListener('transitionend', onTransitionEnd);
+            
+            // Если transition не сработал (запасной вариант)
+            setTimeout(() => {
+                if (activeContainer.style.transition) {
+                    activeContainer.removeEventListener('transitionend', onTransitionEnd);
+                    activeContainer.style.transition = '';
+                    if (window.onWindowResize) {
+                        window.onWindowResize();
+                    }
+                }
+            }, 50); // Чуть больше чем transition
+        } else {
+            // Для чертежей просто вызываем с задержкой
+            setTimeout(() => {
+                if (window.onWindowResize) {
+                    window.onWindowResize();
+                }
+            }, 50);
         }
 
         // Восстанавливаем панель управления чертежами
@@ -121,23 +160,13 @@ export const FullscreenManager = {
 
         console.log('Exited fullscreen mode');
     },
+
     updateButtonState() {
-        if (this.isFullscreen) {
-            this.toggleBtn.innerHTML = `
-                <i class="fas fa-compress"></i>
-                <span>Свернуть</span>
-            `;
-            this.toggleBtn.title = 'Свернуть в обычный режим (ESC)';
-            this.toggleBtn.classList.add('fullscreen-active');
-        } else {
-            this.toggleBtn.innerHTML = `
-                <i class="fas fa-expand"></i>
-                <span>Развернуть</span>
-            `;
-            this.toggleBtn.title = 'Развернуть на весь экран';
-            this.toggleBtn.classList.remove('fullscreen-active');
-        }
+        const icon = this.isFullscreen ? 'compress' : 'expand';
+        
+        this.toggleBtn.innerHTML = `<svg><use xlink:href="assets/icons/sprite.svg#${icon}"></use></svg>`;
     },
+    
 
     setupDrawingControls() {
         const drawingControls = this.drawingContainer.querySelector('.drawing-controls');

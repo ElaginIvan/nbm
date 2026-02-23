@@ -5,32 +5,46 @@ let originalGridOpacity = 0.5;
  * @param {THREE.Scene} scene - Сцена для добавления сетки
  */
 export function createAdaptiveGrid(scene) {
-    // Создаем сетку с настройками для лучшей видимости
-    const size = 100; // Размер сетки
-    const divisions = 20; // Количество делений
-
-    // Основная сетка (серые линии)
+    const size = 100;
+    const divisions = 20;
     const mainGrid = new THREE.GridHelper(size, divisions, 0x888888, 0x444444);
     mainGrid.material.opacity = originalGridOpacity;
     mainGrid.material.transparent = true;
 
-    // Центральные оси (более яркие)
-    const axesSize = size / 2;
-    const axesHelper = new THREE.GridHelper(axesSize, 2, 0xff0000, 0x00ff00);
-    axesHelper.material.opacity = 0.8;
-    axesHelper.material.transparent = true;
-    axesHelper.position.y = 0.01; // Немного выше основной сетки чтобы избежать z-fighting
+    // Создаем цветные оси
+    const axisLength = size / 2;
+    const axesGroup = new THREE.Group();
+    const axisWidth = 0.3; // Ширина полоски (видна сверху)
+    
+    // Ось X (красная) - плоскость вытянутая по X
+    const planeX = new THREE.Mesh(
+        new THREE.PlaneGeometry(axisLength * 2, axisWidth),
+        new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true, opacity: originalGridOpacity, side: THREE.DoubleSide })
+    );
+    planeX.rotation.x = -Math.PI / 2; // Кладем на пол
+    // orientation: плоскость лежит, ее длина по X, ширина по Z
+    axesGroup.add(planeX);
+    
+    // Ось Z (синяя) - плоскость вытянутая по Z
+    const planeZ = new THREE.Mesh(
+        new THREE.PlaneGeometry(axisWidth, axisLength * 2),
+        new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: originalGridOpacity, side: THREE.DoubleSide })
+    );
+    planeZ.rotation.x = -Math.PI / 2; // Кладем на пол
+    // orientation: плоскость лежит, ее длина по Z, ширина по X
+    axesGroup.add(planeZ);
+    
+    axesGroup.position.y = 0.001;
 
-    // Создаем контейнер для всей сетки
     const gridHelper = new THREE.Group();
     gridHelper.name = 'adaptiveGrid';
     gridHelper.add(mainGrid);
-    gridHelper.add(axesHelper);
+    gridHelper.add(axesGroup);
 
     scene.add(gridHelper);
     return gridHelper;
 }
-
+// Остальные функции (updateGridPosition, checkCameraOrientation) без изменений
 /**
  * Обновляет позицию и видимость сетки в зависимости от положения камеры
  * @param {THREE.Object3D} model - Загруженная модель
@@ -48,7 +62,7 @@ export function updateGridPosition(model, gridHelper) {
     const minY = box.min.y;
 
     // 3. Помещаем сетку под модель с небольшим отступом
-    gridHelper.position.set(center.x, minY - 0.1, center.z);
+    gridHelper.position.set(center.x, minY - 0.01, center.z);
 
     // 4. Масштабируем сетку в соответствии с размером модели
     const modelSize = Math.max(size.x, size.z);
@@ -84,7 +98,6 @@ export function checkCameraOrientation(gridHelper, camera, isGridVisible, origin
     const targetOpacity = shouldBeVisible ? originalGridOpacity : 0.0;
     
     // Сразу устанавливаем прозрачность, без плавного перехода
-    // (чтобы избежать накопления изменений при resize)
     gridHelper.traverse((child) => {
         if (child.material) {
             child.material.opacity = targetOpacity;

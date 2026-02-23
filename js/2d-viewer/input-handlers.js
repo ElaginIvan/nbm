@@ -14,19 +14,21 @@ export const InputHandlers = {
     initMouseHandlers(drawingViewer, zoomManager) {
         const imageElement = document.getElementById('drawing-image');
         const drawingWrapper = document.querySelector('.drawing-wrapper');
-        
+
         if (imageElement) {
             imageElement.addEventListener('mousedown', (e) => this.handleMouseDown(e, drawingViewer, zoomManager));
+            // 👇 ДОБАВЛЯЕМ обработчик двойного клика на изображение
+            imageElement.addEventListener('dblclick', (e) => this.handleDoubleClick(e, drawingViewer, zoomManager));
         }
-        
-        // Также добавляем обработчик на wrapper для захвата кликов за пределами изображения
+
         if (drawingWrapper) {
             drawingWrapper.addEventListener('mousedown', (e) => {
-                // Если клик не на изображении, но в контейнере
                 if (e.target === drawingWrapper) {
                     this.handleMouseDown(e, drawingViewer, zoomManager);
                 }
             });
+            // 👇 ДОБАВЛЯЕМ обработчик двойного клика на wrapper
+            drawingWrapper.addEventListener('dblclick', (e) => this.handleDoubleClick(e, drawingViewer, zoomManager));
         }
 
         document.addEventListener('mouseup', () => this.handleMouseUp());
@@ -50,15 +52,16 @@ export const InputHandlers = {
         }
     },
 
+
     /**
      * Обработка нажатия кнопки мыши
      */
     handleMouseDown(e, drawingViewer, zoomManager) {
         if (drawingViewer.currentMode !== '2D') return;
-        
+
         e.preventDefault();
         e.stopPropagation();
-        
+
         this.isDragging = true;
         this.dragStart.x = e.clientX - zoomManager.imagePos.x;
         this.dragStart.y = e.clientY - zoomManager.imagePos.y;
@@ -68,12 +71,12 @@ export const InputHandlers = {
             imageElement.style.cursor = 'grabbing';
             imageElement.classList.add('dragging');
         }
-        
+
         const drawingWrapper = document.querySelector('.drawing-wrapper');
         if (drawingWrapper) {
             drawingWrapper.style.cursor = 'grabbing';
         }
-        
+
         console.log('🐭 Mouse drag started', { x: this.dragStart.x, y: this.dragStart.y });
     },
 
@@ -85,11 +88,11 @@ export const InputHandlers = {
 
         e.preventDefault();
         e.stopPropagation();
-        
+
         zoomManager.imagePos.x = e.clientX - this.dragStart.x;
         zoomManager.imagePos.y = e.clientY - this.dragStart.y;
         zoomManager.applyZoom();
-        
+
         console.log('🐭 Mouse dragging', { x: zoomManager.imagePos.x, y: zoomManager.imagePos.y });
     },
 
@@ -98,20 +101,20 @@ export const InputHandlers = {
      */
     handleMouseUp() {
         if (!this.isDragging) return;
-        
+
         this.isDragging = false;
         const imageElement = document.getElementById('drawing-image');
         const drawingWrapper = document.querySelector('.drawing-wrapper');
-        
+
         if (imageElement) {
             imageElement.style.cursor = 'grab';
             imageElement.classList.remove('dragging');
         }
-        
+
         if (drawingWrapper) {
             drawingWrapper.style.cursor = 'default';
         }
-        
+
         console.log('🐭 Mouse drag ended');
     },
 
@@ -152,7 +155,7 @@ export const InputHandlers = {
             zoomManager.imagePos.x -= relativeX * (1 - 1 / scaleChange);
             zoomManager.imagePos.y -= relativeY * (1 - 1 / scaleChange);
             zoomManager.applyZoom();
-            
+
             console.log('🔍 Zoom level changed:', zoomManager.zoomLevel);
         }
     },
@@ -162,7 +165,7 @@ export const InputHandlers = {
      */
     handleTouchStart(e, drawingViewer, zoomManager) {
         if (drawingViewer.currentMode !== '2D') return;
-        
+
         if (e.touches.length === 2) {
             e.preventDefault();
             e.stopPropagation();
@@ -183,7 +186,7 @@ export const InputHandlers = {
 
             this.isDragging = true;
             this.isZooming = false;
-            
+
             const touch = e.touches[0];
             this.dragStart.x = touch.clientX - zoomManager.imagePos.x;
             this.dragStart.y = touch.clientY - zoomManager.imagePos.y;
@@ -200,7 +203,7 @@ export const InputHandlers = {
      */
     handleTouchMove(e, drawingViewer, zoomManager) {
         if (drawingViewer.currentMode !== '2D') return;
-        
+
         if (this.isZooming && e.touches.length === 2) {
             e.preventDefault();
             e.stopPropagation();
@@ -247,7 +250,7 @@ export const InputHandlers = {
         } else if (this.isDragging && e.touches.length === 1) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             const touch = e.touches[0];
             zoomManager.imagePos.x = touch.clientX - this.dragStart.x;
             zoomManager.imagePos.y = touch.clientY - this.dragStart.y;
@@ -264,10 +267,10 @@ export const InputHandlers = {
             this.initialDistance = null;
             this.initialZoom = 1;
         }
-        
+
         if (this.isDragging) {
             this.isDragging = false;
-            
+
             const imageElement = document.getElementById('drawing-image');
             if (imageElement) {
                 imageElement.classList.remove('dragging');
@@ -279,6 +282,22 @@ export const InputHandlers = {
             this.isDragging = false;
             this.isZooming = false;
         }
+    },
+
+    /**
+     * 👇 НОВЫЙ МЕТОД: Обработка двойного клика/нажатия
+     */
+    handleDoubleClick(e, drawingViewer, zoomManager) {
+        // Работает только в 2D режиме
+        if (drawingViewer.currentMode !== '2D') return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        console.log('🔄 Double click/tap - reset zoom');
+
+        // Вызываем сброс зума
+        zoomManager.resetZoom();
     },
 
     /**

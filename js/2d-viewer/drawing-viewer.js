@@ -70,9 +70,6 @@ export const DrawingViewer = {
             });
         }
 
-        // Кнопки управления
-        UIManager.bindControlButtons(ZoomManager);
-
         // Обработчики ввода - передаем this (DrawingViewer) и ZoomManager
         InputHandlers.initMouseHandlers(this, ZoomManager);
         InputHandlers.initTouchHandlers(this, ZoomManager);
@@ -156,48 +153,6 @@ export const DrawingViewer = {
 
         ZoomManager.resetZoom();
     },
-
-    /**
-     * Функция для програмного переключения режима, вместо кнопки 3D|2D.
-     */
-    // setMode(mode) {
-    //     if (mode !== '3D' && mode !== '2D') {
-    //         console.error('Invalid mode:', mode);
-    //         return;
-    //     }
-
-    //     const oldMode = this.currentMode;
-    //     this.currentMode = mode;
-
-    //     // Обновляем currentMode в ZoomManager
-    //     ZoomManager.currentMode = mode;
-
-    //     UIManager.updateView(this.currentMode);
-    //     UIManager.updateToggleButton(this.currentMode);
-
-    //     // Устанавливаем курсоры
-    //     this.setupCursors();
-
-    //     if (window.PanelManager) {
-    //         window.PanelManager.currentViewMode = this.currentMode;
-    //         window.PanelManager.updateToggleButton();
-    //     }
-
-    //     document.dispatchEvent(new CustomEvent('viewModeChanged', {
-    //         detail: { mode: this.currentMode, oldMode: oldMode }
-    //     }));
-
-    //     // Также обновляем Three.js при установке режима
-    //     if (typeof window.onWindowResize === 'function') {
-    //         setTimeout(() => {
-    //             try {
-    //                 window.onWindowResize();
-    //             } catch (error) {
-    //                 console.warn('Ошибка при обновлении Three.js:', error);
-    //             }
-    //         }, 50);
-    //     }
-    // },
 
     /**
      * Получает текущий режим

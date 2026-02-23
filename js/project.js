@@ -559,26 +559,28 @@ showAllParts() {
         let html = '';
         structure.forEach((item, index) => {
             const indent = item.level * 15;
-    
+        
             // Получаем данные из CSV (только наименование и описание)
             const csvData = item.csvData;
             const name = csvData ? csvData['Наименование'] : '—';
             const quantity = item.instanceCount || 1;
-    
+        
             const hasData = csvData ? 'has-data' : 'no-data';
-    
+        
             html += `
             <tr class="part-row ${hasData}" data-part-name="${item.name}">
                 <td>
                     <div class="part-item" style="padding-left: ${indent}px">
-                        <i class="fas ${item.children.length > 0 ? 'fa-cubes' : 'fa-cube'} part-icon"></i>
+                        <svg class="part-icon">
+                            <use href="assets/icons/sprite.svg#${item.children.length > 0 ? 'cubes' : 'cube'}"></use>
+                        </svg>
                         ${item.name}
                     </div>
                 </td>
                 <td>${name}</td>
                 <td>${quantity}</td>
             </tr>
-        `;
+            `;
         });
     
         tbody.innerHTML = html;
@@ -706,7 +708,7 @@ export const ProjectPage = {
                         margin-top: 20px;
                         text-decoration: none;
                     ">
-                        <i class="fas fa-arrow-left"></i>
+                        <i class="fas fa-house"></i>
                         <span>Назад</span>
                     </a>
                 </div>
