@@ -19,11 +19,11 @@ export function setupLights(scene) {
 
     // 3. Свет спереди-слева
     const directionalLight3 = new THREE.DirectionalLight(0xffffff, 0.6);
-    directionalLight3.position.set(-30, 20, 30);
+    directionalLight3.position.set(-20, 20, 30);
     scene.add(directionalLight3);
 
     // 4. Свет сзади-справа
     const directionalLight4 = new THREE.DirectionalLight(0xffffff, 0.6);
-    directionalLight4.position.set(30, 10, -30);
+    directionalLight4.position.set(20, 10, -30);
     scene.add(directionalLight4);
 }
