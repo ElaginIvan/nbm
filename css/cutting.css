@@ -321,7 +321,6 @@ p {
     width: 50px;
     fill: var(--text-color);
     position: relative;
-    width: 710px;
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 20px;
